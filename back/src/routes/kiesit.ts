@@ -33,8 +33,8 @@ router.post('/login', async (req, res) => {
   })
 
   //send the access token to the client inside a cookie
-  res.cookie("jwt", accessToken, { secure: true, httpOnly: true })
-  res.send()
+  //res.cookie("jwt", accessToken, { secure: true, httpOnly: true })
+  res.status(200).send({"bearer":accessToken})
   return ""
 })
 
@@ -60,17 +60,18 @@ router.get('/pools',
     return res.status(200).send(pools)
   });
 
+
+//post joinpool(userid (jwt), poolid) -> userid added to pool
 router.post('/joinpool',
   jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
   async (req, res) => {
-    console.log((<any>req).user)
     if (!(<any>req).user) return res.sendStatus(401);
 
-    const reqq = JSON.parse(req.body)
+    /*const reqq = JSON.parse(req.body)
+    const poolid = reqq.poolid
     const startpoint = reqq.startpoint
     const endpoint = reqq.endpoint
-    console.log(endpoint)
-    console.log(startpoint)
+    const id = (<any>req).user.user.id*/
 
     return res.status(200).send("temp")
   });
@@ -86,26 +87,20 @@ router.post('/search',
     const endpoint = point(reqq.endpoint)
     //console.log("distance between params " + distance(startpoint, endpoint))
     
-    const makePoints = pools.map((i: { userid: any; id: any; startlat: any; startlon: any; endlat: any; endlon: any }) => {
+    const makePoints = pools.map((i: { userid: any; id: any; startlat: any; startlon: any; endlat: any; endlon: any; poolname: any }) => {
       return {
         "userid": i.userid,
         "poolid": i.id,
         "startpoint": point([i.startlon, i.startlat]),
         "endpoint": point([i.endlon, i.endlat]),
+        "name": i.poolname
       }
     })
     //console.log(makePoints)
     const filtered = makePoints.filter((i: { startpoint: any; endpoint: any }) => {
       return distance(i.startpoint, startpoint) <= 20 && distance(i.endpoint, endpoint) <= 20
     })
-    const returnPoolId = filtered.map((i: { poolid: any }) => {
-        return i.poolid
-    });
-    const ret = returnPoolId.map((i: any) => {
-      return kiesi_service.getPoolsWithId(i);
-    })
-    console.log(ret);
-
+    console.log(filtered);
     res.setHeader('Content-Type', 'application/json');
     return res.status(200).send(filtered)
 });

@@ -43,6 +43,24 @@ const getUser = async (username: any, password: any) => {
   }
 }
 
+const joinPool = async (userid: any, poolid: any, startpoint: any, endpoint: any) => {
+  try {
+    const client = await pool.connect()
+    try {
+      const res = await client.query('INSERT INTO pool_route VALUES $1 $2 $3 $4', [poolid, startpoint, endpoint, userid])
+      //console.log(res.rows)
+      return res.rows
+    } finally {
+      // Make sure to release the client before any error handling,
+      // just in case the error handling itself throws an error.
+      client.release()
+    }
+  } catch (err) {
+    console.log(err.stack)
+  }
+}
+
+
 const getPoolsForUser = async (userid: any) => {
   try {
     const client = await pool.connect()
@@ -76,8 +94,6 @@ const getPoolsWithId = async (poolid: any) => {
     console.log(err.stack)
   }
 }
-
-
 
 const getPools = async () => {
   try {
@@ -114,10 +130,12 @@ const getPoolsWithLocations = async () => {
 }
 
 const getPoolLocationQuery = `SELECT p1.lat AS startlat, p1.lon AS startlon, pool_route.userid, pool_route.id,
-p2.lat AS endlat, p2.lon AS endlon
+p2.lat AS endlat, p2.lon AS endlon,
+pools.poolname
 FROM pool_route 
 LEFT OUTER JOIN points p1 ON pool_route.startpoint=p1.id
-LEFT OUTER JOIN points p2 ON pool_route.endpoint=p2.id`
+LEFT OUTER JOIN points p2 ON pool_route.endpoint=p2.id
+LEFT OUTER JOIN pools ON pool_route.poolid=pools.id`
 
 
-export default { testConnection, getUser, getPoolsForUser, getPools, getPoolsWithLocations, getPoolsWithId }
+export default { testConnection, getUser, getPoolsForUser, getPools, getPoolsWithLocations, getPoolsWithId, joinPool}
