@@ -5,6 +5,7 @@ import Dropdown, { Option } from 'react-dropdown';
 import {lineString} from '@turf/helpers';
 import calcBbox from '@turf/bbox';
 import 'react-dropdown/style.css';
+import Waypoints from './Waypoints';
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -21,6 +22,9 @@ export default () => {
   const [routes, setRoutes] = useState<Pool[]>([]);
   const [currentRoute, setCurrentRoute] = useState<number>(-1);
   const [center, setCenter] = useState<[number, number]>([24, 61]);
+
+  const [waypointCoords, setWaypointCoords] = useState<[number, number][]>();
+
   const map = useRef(undefined);
   const options = [
     'one', 'two', 'three'
@@ -31,7 +35,7 @@ export default () => {
       if (routes.length > 0) {
         const route = await getRoute(routes[currentRoute].route, routes[currentRoute].pairs);
 
-        const line = lineString(route);
+        const line = lineString(route.swappedRoute);
         const bboxfc = calcBbox(line)
         bboxfc[1] -= 1;
         bboxfc[3] += 1;
@@ -39,7 +43,9 @@ export default () => {
         if (map && map.current) {
           (map.current as any).fitBounds(bboxfc);
         }
-        const geojson = route2Geojson(route as [number, number][]);
+        
+        setWaypointCoords(route.response.waypoints.map((w: any) => w.location))
+        const geojson = route2Geojson(route.swappedRoute as [number, number][]);
         setGeojson(geojson);
       }
     })();
@@ -109,6 +115,7 @@ export default () => {
             "visibility": "visible",
           }}
         />
+        <Waypoints waypoints={waypointCoords}/>
       </Map>
     </>
   );
