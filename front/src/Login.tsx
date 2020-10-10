@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import fetch from 'node-fetch';
+import './Login.css';
+
 export default ({ refresh }: { refresh: any }) => {
 
   const getJwt = async () => {
@@ -14,7 +16,7 @@ export default ({ refresh }: { refresh: any }) => {
     }
   }
 
-  const [name, setName] = useState<string>("username");
+  const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   useEffect(() => {
@@ -25,19 +27,14 @@ export default ({ refresh }: { refresh: any }) => {
   }, [])
   return (
     <form className='container'>
-      <div>
-        <input type="text" name="name" value={name} onChange={(e) => {
-          setName(e.target.value);
-        }}/>
-      </div>
-      <div>
-        <input type="password" name="password" value={password} onChange={(e) => {
-          setPassword(e.target.value);
-        }}/>
-      </div>
-      <div>
-        <button onClick={getJwt}>log in</button>
-      </div>
+      <h1 className="login-title">kiesi.app</h1>
+      <input className="login-element" placeholder="username" type="text" name="name" value={name} onChange={(e) => {
+        setName(e.target.value);
+      }}/>
+      <input className="login-element" placeholder="password" type="password" name="password" value={password} onChange={(e) => {
+        setPassword(e.target.value);
+      }}/>
+      <button className="login-element main-button" onClick={getJwt}>Log in</button>
     </form>
   )
 }
