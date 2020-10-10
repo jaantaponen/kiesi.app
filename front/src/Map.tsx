@@ -6,6 +6,7 @@ import {lineString} from '@turf/helpers';
 import calcBbox from '@turf/bbox';
 import 'react-dropdown/style.css';
 import Waypoints from './Waypoints';
+import Sidebar from './Sidebar';
 import './Common.css';
 import './Map.css';
 
@@ -25,6 +26,7 @@ export default () => {
   const [routes, setRoutes] = useState<Pool[]>([]);
   const [currentRoute, setCurrentRoute] = useState<number>(-1);
   const [center, setCenter] = useState<[number, number]>([24, 61]);
+  const [menuVisible, setMenuVisible] = useState<boolean>(false);
 
   const [waypointCoords, setWaypointCoords] = useState<[number, number][]>();
 
@@ -86,9 +88,21 @@ export default () => {
     //const route = await getRouteJson([[23,61], [24, 61], [25, 61], [ev.lngLat.lng, ev.lngLat.lat]], "2020-10-10T08:00")
     //setGeojson(route);
   }
+
+  const onMenuClick = () => {
+    setMenuVisible(!menuVisible);
+  }
+
   return(
-    <div id="container">
-      <Dropdown className="dropdown" onChange={dropdownChange} options={options} /*value={defaultOption}*/ placeholder="Choose a ride" />
+    <div id="container" className={menuVisible ? "container-menu-visible" : ""}>
+      <div className="header-container">
+        <Dropdown className="dropdown" onChange={onMenuClick} options={options} /*value={defaultOption}*/ placeholder="Choose a ride" />
+        <button className="menu-button" onClick={onMenuClick}>
+          <div className="menu-button-bar"/>
+          <div className="menu-button-bar"/>
+          <div className="menu-button-bar"/>
+        </button>
+      </div>
       <Map
         style='mapbox://styles/palikk/ckg3pb2011wja19olciykhatx'
         containerStyle={{
@@ -122,6 +136,7 @@ export default () => {
         />
         <Waypoints waypoints={waypointCoords}/>
       </Map>
+      <Sidebar />
     </div>
   );
 }
