@@ -77,6 +77,21 @@ router.post('/joinpool',
     return res.status(200).send(ret)
   });
 
+//post joinpool(userid (jwt), poolid) -> userid added to pool
+router.post('/createpool',
+  jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
+  async (req, res) => {
+    if (!(<any>req).user) return res.sendStatus(401);
+    const reqq = JSON.parse(req.body)
+    const startpoint = reqq.startpoint
+    const endpoint = reqq.endpoint
+    const poolname = reqq.poolname
+    const id = (<any>req).user.user.id
+    const ret = await kiesi_service.createPool(id, startpoint, endpoint, poolname)
+    //console.log(ret)
+    return res.status(200).send(ret)
+});
+
 router.post('/search',
   jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
   async (req, res) => {

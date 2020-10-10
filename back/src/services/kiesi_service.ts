@@ -67,7 +67,7 @@ const createPool = async (userid: any, startpoint: any, endpoint: any, poolname:
     try {
       const startpoints = await client.query('INSERT INTO points (lat, lon, ptime) VALUES ($2, $1, NULL) RETURNING id',[startpoint[0], startpoint[1]])
       const endpoints = await client.query('INSERT INTO points (lat, lon, ptime) VALUES ($2, $1, NULL) RETURNING id',[endpoint[0], endpoint[1]])
-      const newPool = await client.query('INSERT INTO pools (poolname) VALUES ($1) RETURNING id',[poolname])
+      const newPool = await client.query('INSERT INTO pools (poolname, car) VALUES ($1, 1) RETURNING id',[poolname])
       const res = await client.query('INSERT INTO pool_route (poolid, startpoint, endpoint, userid) VALUES ($1, $2, $3, $4) RETURNING id', [newPool.rows[0].id, startpoints.rows[0].id, endpoints.rows[0].id, userid])
       return res.rows[0]
     } finally {

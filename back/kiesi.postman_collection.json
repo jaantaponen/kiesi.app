@@ -162,6 +162,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "http://localhost:3001/createpool",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"startpoint\" : [25.317654, 60.634476],\n    \"endpoint\": [24.832691, 60.176931],\n    \"poolname\" : \"vittunauraa\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/createpool",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"createpool"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
