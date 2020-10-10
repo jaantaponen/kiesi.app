@@ -47,9 +47,10 @@ const joinPool = async (userid: any, poolid: any, startpoint: any, endpoint: any
   try {
     const client = await pool.connect()
     try {
-      const res = await client.query('INSERT INTO pool_route VALUES $1 $2 $3 $4', [poolid, startpoint, endpoint, userid])
-      //console.log(res.rows)
-      return res.rows
+      const startpoints = await client.query('INSERT INTO points (lat, lon, ptime) VALUES ($2, $1, NULL) RETURNING id',[startpoint[0], startpoint[1]])
+      const endpoints = await client.query('INSERT INTO points (lat, lon, ptime) VALUES ($2, $1, NULL) RETURNING id',[endpoint[0], endpoint[1]])
+      const res = await client.query('INSERT INTO pool_route (poolid, startpoint, endpoint, userid) VALUES ($1, $2, $3, $4) RETURNING id', [poolid, startpoints.rows[0].id, endpoints.rows[0].id, userid])
+      return res.rows[0]
     } finally {
       // Make sure to release the client before any error handling,
       // just in case the error handling itself throws an error.
