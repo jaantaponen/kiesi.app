@@ -12,25 +12,24 @@ router.get('/', async (_request, response) => {
   response.status(200).send("nauraaaaa")
 })
 
-// Never do this!
-let users = {
-  john: { password: "passwordjohn" },
-  mary: { password: "passwordmary" }
-}
 router.post('/login', async (req, res) => {
   const reqq = JSON.parse(req.body)
   let username = reqq.username
   let password = reqq.password
 
+  const id = await kiesi_service.getUser(username, password)
+
   // Neither do this!
-  if (!username || !password || (<any>users)[username].password !== password) {
+  if (!id) {
     return res.status(401).send()
   }
   //use the payload to store information about the user such as username, user role, etc.
-  let payload = { username: username }
+  let payload = { user: id }
+
+  console.log(process.env.ACCESS_TOKEN_LIFE)
   //create the access token with the shorter lifespan
   let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: process.env.ACCESS_TOKEN_LIFE
+    expiresIn: parseInt(<any>process.env.ACCESS_TOKEN_LIFE)
   })
  
   //send the access token to the client inside a cookie
@@ -43,9 +42,9 @@ router.get('/protected',
   jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
   (req, res) => {
     console.log((<any>req).user)
-    if (!(<any>req).user.admin) return res.sendStatus(401);
-    res.sendStatus(200);
-    return
+    if (!(<any>req).user) return res.sendStatus(401);
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(200).send((<any>req).user.user)
 });
 
 
