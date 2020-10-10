@@ -7,16 +7,6 @@ require('dotenv').config()
 
 var jwtmiddleware = require('express-jwt')
 
-router.get('/protected',
-  jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
-  (req, res) => {
-    if (!(<any>req).user.admin) return res.sendStatus(401);
-    res.sendStatus(200);
-    return
-});
-
-
-
 router.get('/', async (_request, response) => {
   await kiesi_service.testConnection()
   response.status(200).send("nauraaaaa")
@@ -40,7 +30,6 @@ router.post('/login', async (req, res) => {
   let payload = { username: username }
   //create the access token with the shorter lifespan
   let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    algorithm: "HS256",
     expiresIn: process.env.ACCESS_TOKEN_LIFE
   })
 
@@ -49,6 +38,15 @@ router.post('/login', async (req, res) => {
   res.send()
   return ""
 })
+
+router.get('/protected',
+  jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
+  (req, res) => {
+    console.log((<any>req).user)
+    if (!(<any>req).user.admin) return res.sendStatus(401);
+    res.sendStatus(200);
+    return
+});
 
 
 /**
