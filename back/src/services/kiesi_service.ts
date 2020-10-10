@@ -149,7 +149,7 @@ const getPoolsWithLocations = async () => {
   }
 }
 
-const getPoolLocationQuery = `SELECT p1.lat AS startlat, p1.lon AS startlon, pool_route.userid, pool_route.id,
+const getPoolLocationQuery = `SELECT p1.lat AS startlat, p1.lon AS startlon, pool_route.userid, pool_route.id AS routeid, pool_route.poolid,
 p2.lat AS endlat, p2.lon AS endlon,
 pools.poolname
 FROM pool_route 
