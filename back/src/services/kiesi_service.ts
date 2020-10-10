@@ -26,4 +26,22 @@ const testConnection = async () => {
   }
 }
 
-export default { testConnection }
+const getUser = async (username: any, password: any) => {
+  try {
+    const client = await pool.connect()
+    try {
+      console.log(username, password)
+      const res = await client.query('SELECT id FROM users WHERE username=$1 AND pwd=$2', [username, password])
+      console.log(res)
+      return res.rows[0]
+    } finally {
+      // Make sure to release the client before any error handling,
+      // just in case the error handling itself throws an error.
+      client.release()
+    }
+  } catch (err) {
+    console.log(err.stack)
+  }
+}
+
+export default { testConnection, getUser }

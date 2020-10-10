@@ -12,22 +12,19 @@ router.get('/', async (_request, response) => {
   response.status(200).send("nauraaaaa")
 })
 
-// Never do this!
-let users = {
-  john: { password: "passwordjohn" },
-  mary: { password: "passwordmary" }
-}
 router.post('/login', async (req, res) => {
   const reqq = JSON.parse(req.body)
   let username = reqq.username
   let password = reqq.password
 
+  const id = await kiesi_service.getUser(username, password)
+
   // Neither do this!
-  if (!username || !password || (<any>users)[username].password !== password) {
+  if (!id) {
     return res.status(401).send()
   }
   //use the payload to store information about the user such as username, user role, etc.
-  let payload = { username: username }
+  let payload = { user: id }
   //create the access token with the shorter lifespan
   let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: process.env.ACCESS_TOKEN_LIFE
