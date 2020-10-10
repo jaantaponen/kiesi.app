@@ -11,15 +11,14 @@ const constructRoutingUrl = (coordinates: number[][], startDate: string) => {
     if (i > 0) urlString += ';';
     urlString += pair.join(',');
   });
-  const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${urlString}?access_token=pk.eyJ1IjoicGFsaWtrIiwiYSI6ImNrNzljb2NnaTBueDIzZm55eXJpcjh0M2gifQ.DvQulSOQQxy2CpDWdytTww&depart_at=${startDate}`;
+  const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${urlString}?access_token=pk.eyJ1IjoicGFsaWtrIiwiYSI6ImNrNzljb2NnaTBueDIzZm55eXJpcjh0M2gifQ.DvQulSOQQxy2CpDWdytTww&roundtrip=false&source=first&destination=last`;
   return url;
 }
 
 export const getRoute = async (coordinates: number[][], startDate: string) => {
   const routeAns =  await fetch(constructRoutingUrl(coordinates, startDate));
   const res = await routeAns.json();
-  const decodedPoly = decodePolyLine(res.routes[0].geometry);
-
+  const decodedPoly = decodePolyLine(res.trips[0].geometry);
   return decodedPoly.map((pair: number[]) => {
     return pair.reverse();
   });
