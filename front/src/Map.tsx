@@ -12,12 +12,12 @@ interface Pool {
   route: [number, number][];
   pairs?: [number, number][];
 }
-
+const Map = ReactMapboxGl({
+  accessToken:
+    'pk.eyJ1IjoicGFsaWtrIiwiYSI6ImNqNDJ2bWZxcDB0aDgyd3Bjbzl0bnF0NmgifQ.Peq3TbCa8ALVbmbvsgfFvQ',
+});
 export default () => {
-  const Map = ReactMapboxGl({
-    accessToken:
-      'pk.eyJ1IjoicGFsaWtrIiwiYSI6ImNqNDJ2bWZxcDB0aDgyd3Bjbzl0bnF0NmgifQ.Peq3TbCa8ALVbmbvsgfFvQ',
-  });
+
   
   const [geojson, setGeojson] = useState<any>(emptyJson);
   const [routes, setRoutes] = useState<Pool[]>([]);
@@ -102,9 +102,7 @@ export default () => {
       >
         <MapContext.Consumer>
         {(_map) => {
-          if (map.current) {
-            map.current = (_map as any);
-          }
+          map.current = (_map as any);
           return undefined;
           }}
        </MapContext.Consumer>
