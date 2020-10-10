@@ -1,0 +1,27 @@
+.Dropdown-control {
+  font-weight: bold;
+  border-radius: 22px;
+  padding-left: 52px;
+  padding-top: 12px;
+  height: 44px;
+  font-size: 18px;
+  z-index: 101;
+}
+
+.Dropdown-arrow {
+  top: 18px;
+  right: 14px;
+}
+
+.Dropdown-menu {
+  position: relative;
+  margin-top: -22px;
+  padding-top: 22px;
+  z-index: 100;
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
+}
+
+.dropdown {
+  top: 22px;
+}

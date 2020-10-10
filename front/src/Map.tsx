@@ -6,6 +6,8 @@ import {lineString} from '@turf/helpers';
 import calcBbox from '@turf/bbox';
 import 'react-dropdown/style.css';
 import Waypoints from './Waypoints';
+import './Common.css';
+import './Map.css';
 
 
 interface Pool {
@@ -18,7 +20,7 @@ export default () => {
     accessToken:
       'pk.eyJ1IjoicGFsaWtrIiwiYSI6ImNqNDJ2bWZxcDB0aDgyd3Bjbzl0bnF0NmgifQ.Peq3TbCa8ALVbmbvsgfFvQ',
   });
-  
+
   const [geojson, setGeojson] = useState<any>(emptyJson);
   const [routes, setRoutes] = useState<Pool[]>([]);
   const [currentRoute, setCurrentRoute] = useState<number>(-1);
@@ -44,7 +46,7 @@ export default () => {
         if (map && map.current) {
           (map.current as any).fitBounds(bboxfc);
         }
-        
+
         setWaypointCoords(route.response.waypoints.map((w: any) => w.location))
         const geojson = route2Geojson(route.swappedRoute as [number, number][]);
         setGeojson(geojson);
@@ -85,8 +87,8 @@ export default () => {
     //setGeojson(route);
   }
   return(
-    <>
-      <Dropdown className="dropdown" onChange={dropdownChange} value="Select pool" options={options} /*value={defaultOption}*/ placeholder="Select an option" />
+    <div id="container">
+      <Dropdown className="dropdown" onChange={dropdownChange} options={options} /*value={defaultOption}*/ placeholder="Choose a ride" />
       <Map
         style='mapbox://styles/palikk/ckg3pb2011wja19olciykhatx'
         containerStyle={{
@@ -120,6 +122,6 @@ export default () => {
         />
         <Waypoints waypoints={waypointCoords}/>
       </Map>
-    </>
+    </div>
   );
 }
