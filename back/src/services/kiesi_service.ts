@@ -61,6 +61,25 @@ const joinPool = async (userid: any, poolid: any, startpoint: any, endpoint: any
   }
 }
 
+const createPool = async (userid: any, startpoint: any, endpoint: any, poolname: any) => {
+  try {
+    const client = await pool.connect()
+    try {
+      const startpoints = await client.query('INSERT INTO points (lat, lon, ptime) VALUES ($2, $1, NULL) RETURNING id',[startpoint[0], startpoint[1]])
+      const endpoints = await client.query('INSERT INTO points (lat, lon, ptime) VALUES ($2, $1, NULL) RETURNING id',[endpoint[0], endpoint[1]])
+      const newPool = await client.query('INSERT INTO pools (poolname) VALUES ($1) RETURNING id',[poolname])
+      const res = await client.query('INSERT INTO pool_route (poolid, startpoint, endpoint, userid) VALUES ($1, $2, $3, $4) RETURNING id', [newPool.rows[0].id, startpoints.rows[0].id, endpoints.rows[0].id, userid])
+      return res.rows[0]
+    } finally {
+      // Make sure to release the client before any error handling,
+      // just in case the error handling itself throws an error.
+      client.release()
+    }
+  } catch (err) {
+    console.log(err.stack)
+  }
+}
+
 
 const getPoolsForUser = async (userid: any) => {
   try {
@@ -139,4 +158,4 @@ LEFT OUTER JOIN points p2 ON pool_route.endpoint=p2.id
 LEFT OUTER JOIN pools ON pool_route.poolid=pools.id`
 
 
-export default { testConnection, getUser, getPoolsForUser, getPools, getPoolsWithLocations, getPoolsWithId, joinPool}
+export default { testConnection, getUser, getPoolsForUser, getPools, getPoolsWithLocations, getPoolsWithId, joinPool, createPool}
