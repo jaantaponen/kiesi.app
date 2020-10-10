@@ -43,7 +43,7 @@ const getUser = async (username: any, password: any) => {
   }
 }
 
-const getPools = async (userid: any) => {
+const getPoolsForUser = async (userid: any) => {
   try {
     const client = await pool.connect()
     try {
@@ -60,4 +60,64 @@ const getPools = async (userid: any) => {
   }
 }
 
-export default { testConnection, getUser, getPools }
+const getPoolsWithId = async (poolid: any) => {
+  try {
+    const client = await pool.connect()
+    try {
+      const res = await client.query('SELECT * FROM pool_route WHERE id=$1', [poolid])
+      //console.log(res.rows)
+      return res.rows
+    } finally {
+      // Make sure to release the client before any error handling,
+      // just in case the error handling itself throws an error.
+      client.release()
+    }
+  } catch (err) {
+    console.log(err.stack)
+  }
+}
+
+
+
+const getPools = async () => {
+  try {
+    const client = await pool.connect()
+    try {
+      const res = await client.query('SELECT * FROM pool_route', [])
+      console.log(res.rows)
+      return res.rows
+    } finally {
+      // Make sure to release the client before any error handling,
+      // just in case the error handling itself throws an error.
+      client.release()
+    }
+  } catch (err) {
+    console.log(err.stack)
+  }
+}
+
+const getPoolsWithLocations = async () => {
+  try {
+    const client = await pool.connect()
+    try {
+      const res = await client.query(getPoolLocationQuery, [])
+      //console.log(res.rows)
+      return res.rows
+    } finally {
+      // Make sure to release the client before any error handling,
+      // just in case the error handling itself throws an error.
+      client.release()
+    }
+  } catch (err) {
+    console.log(err.stack)
+  }
+}
+
+const getPoolLocationQuery = `SELECT p1.lat AS startlat, p1.lon AS startlon, pool_route.userid, pool_route.id,
+p2.lat AS endlat, p2.lon AS endlon
+FROM pool_route 
+LEFT OUTER JOIN points p1 ON pool_route.startpoint=p1.id
+LEFT OUTER JOIN points p2 ON pool_route.endpoint=p2.id`
+
+
+export default { testConnection, getUser, getPoolsForUser, getPools, getPoolsWithLocations, getPoolsWithId }

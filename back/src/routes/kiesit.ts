@@ -3,7 +3,8 @@ const router = express.Router()
 import kiesi_service from '../services/kiesi_service'
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
-
+import distance from '@turf/distance'
+import {point} from '@turf/helpers'
 
 var jwtmiddleware = require('express-jwt')
 
@@ -30,7 +31,7 @@ router.post('/login', async (req, res) => {
   let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: parseInt(<any>process.env.ACCESS_TOKEN_LIFE)
   })
- 
+
   //send the access token to the client inside a cookie
   res.cookie("jwt", accessToken, { secure: true, httpOnly: true })
   res.send()
@@ -44,7 +45,7 @@ router.get('/protected',
     if (!(<any>req).user) return res.sendStatus(401);
     res.setHeader('Content-Type', 'application/json');
     return res.status(200).send((<any>req).user.user)
-});
+  });
 
 router.get('/pools',
   jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
@@ -54,10 +55,10 @@ router.get('/pools',
     res.setHeader('Content-Type', 'application/json');
 
     console.log((<any>req).user.user.id)
-    const pools = await kiesi_service.getPools((<any>req).user.user.id)
+    const pools = await kiesi_service.getPoolsForUser((<any>req).user.user.id)
 
     return res.status(200).send(pools)
-});
+  });
 
 router.post('/joinpool',
   jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
@@ -72,7 +73,44 @@ router.post('/joinpool',
     console.log(startpoint)
 
     return res.status(200).send("temp")
+  });
+
+router.post('/search',
+  jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
+  async (req, res) => {
+    if (!(<any>req).user) return res.sendStatus(401);
+    const pools = await kiesi_service.getPoolsWithLocations()
+    
+    const reqq = JSON.parse(req.body)
+    const startpoint = point(reqq.startpoint)
+    const endpoint = point(reqq.endpoint)
+    //console.log("distance between params " + distance(startpoint, endpoint))
+    
+    const makePoints = pools.map((i: { userid: any; id: any; startlat: any; startlon: any; endlat: any; endlon: any }) => {
+      return {
+        "userid": i.userid,
+        "poolid": i.id,
+        "startpoint": point([i.startlon, i.startlat]),
+        "endpoint": point([i.endlon, i.endlat]),
+      }
+    })
+    //console.log(makePoints)
+    const filtered = makePoints.filter((i: { startpoint: any; endpoint: any }) => {
+      return distance(i.startpoint, startpoint) <= 20 && distance(i.endpoint, endpoint) <= 20
+    })
+    const returnPoolId = filtered.map((i: { poolid: any }) => {
+        return i.poolid
+    });
+    const ret = returnPoolId.map((i: any) => {
+      return kiesi_service.getPoolsWithId(i);
+    })
+    console.log(ret);
+
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(200).send(filtered)
 });
+
+
 
 /**
  * 
