@@ -1,0 +1,76 @@
+#container {
+  transition: margin-left 0.2s, margin-right 0.2s;
+}
+
+.mapboxgl-map {
+  transition: left 0.2s;
+}
+
+.container-menu-visible {
+  margin-left: -280px;
+  margin-right: 280px;
+}
+
+.container-menu-visible .mapboxgl-map {
+  left: -280px;
+}
+
+.Dropdown-control {
+  font-weight: bold;
+  border-radius: 22px;
+  padding-top: 12px;
+  padding-right: 12px;
+  height: 44px;
+  font-size: 18px;
+  z-index: 101;
+}
+
+.Dropdown-arrow {
+  top: 18px;
+  right: 14px;
+}
+
+.Dropdown-menu {
+  position: static;
+  margin-top: -22px;
+  padding-top: 22px;
+  z-index: 100;
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
+}
+
+.header-container {
+  display: flex;
+  margin: 24px;
+  align-items: flex-start;
+}
+
+.dropdown {
+  position: static !important;
+  width: auto;
+  flex-grow: 1;
+}
+
+.menu-button {
+  width: 32px;
+  margin-top: 10px;
+  margin-left: 16px;
+  border: none;
+  background-color: transparent;
+  padding: 0px;
+}
+
+.menu-button-bar {
+  width: 100%;
+  height: 6px;
+  background-color: black;
+  border-radius: 3px;
+  margin-bottom: 4px;
+}
+
+.mapboxgl-map {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+}

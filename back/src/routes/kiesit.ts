@@ -67,14 +67,30 @@ router.post('/joinpool',
   async (req, res) => {
     if (!(<any>req).user) return res.sendStatus(401);
 
-    /*const reqq = JSON.parse(req.body)
+    const reqq = JSON.parse(req.body)
     const poolid = reqq.poolid
     const startpoint = reqq.startpoint
     const endpoint = reqq.endpoint
-    const id = (<any>req).user.user.id*/
-
-    return res.status(200).send("temp")
+    const id = (<any>req).user.user.id
+    const ret = await kiesi_service.joinPool(id, poolid, startpoint, endpoint)
+    //console.log(ret)
+    return res.status(200).send(ret)
   });
+
+//post joinpool(userid (jwt), poolid) -> userid added to pool
+router.post('/createpool',
+  jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
+  async (req, res) => {
+    if (!(<any>req).user) return res.sendStatus(401);
+    const reqq = JSON.parse(req.body)
+    const startpoint = reqq.startpoint
+    const endpoint = reqq.endpoint
+    const poolname = reqq.poolname
+    const id = (<any>req).user.user.id
+    const ret = await kiesi_service.createPool(id, startpoint, endpoint, poolname)
+    //console.log(ret)
+    return res.status(200).send(ret)
+});
 
 router.post('/search',
   jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
@@ -87,10 +103,10 @@ router.post('/search',
     const endpoint = point(reqq.endpoint)
     //console.log("distance between params " + distance(startpoint, endpoint))
     
-    const makePoints = pools.map((i: { userid: any; id: any; startlat: any; startlon: any; endlat: any; endlon: any; poolname: any }) => {
+    const makePoints = pools.map((i: { userid: any; id: any; startlat: any; startlon: any; endlat: any; endlon: any; poolname: any; poolid: any }) => {
       return {
         "userid": i.userid,
-        "poolid": i.id,
+        "poolid": i.poolid,
         "startpoint": point([i.startlon, i.startlat]),
         "endpoint": point([i.endlon, i.endlat]),
         "name": i.poolname
@@ -100,9 +116,17 @@ router.post('/search',
     const filtered = makePoints.filter((i: { startpoint: any; endpoint: any }) => {
       return distance(i.startpoint, startpoint) <= 20 && distance(i.endpoint, endpoint) <= 20
     })
-    console.log(filtered);
+    const foundId: number[] = [];
+    const ret = [];
+    for (let i = 0; i < filtered.length; i++) {
+      let id = filtered[i].poolid;
+      if (!foundId.includes(id)) {
+        foundId.push(id);
+        ret.push(filtered[i]);
+      }
+    };
     res.setHeader('Content-Type', 'application/json');
-    return res.status(200).send(filtered)
+    return res.status(200).send(ret)
 });
 
 

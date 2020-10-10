@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import fetch from 'node-fetch';
+import './Common.css';
 import './Login.css';
 import { Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
