@@ -67,13 +67,14 @@ router.post('/joinpool',
   async (req, res) => {
     if (!(<any>req).user) return res.sendStatus(401);
 
-    /*const reqq = JSON.parse(req.body)
+    const reqq = JSON.parse(req.body)
     const poolid = reqq.poolid
     const startpoint = reqq.startpoint
     const endpoint = reqq.endpoint
-    const id = (<any>req).user.user.id*/
-
-    return res.status(200).send("temp")
+    const id = (<any>req).user.user.id
+    const ret = await kiesi_service.joinPool(id, poolid, startpoint, endpoint)
+    //console.log(ret)
+    return res.status(200).send(ret)
   });
 
 router.post('/search',
