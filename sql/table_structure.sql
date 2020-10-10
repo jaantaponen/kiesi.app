@@ -3,7 +3,6 @@ DROP TABLE points CASCADE;
 DROP TABLE cars CASCADE;
 DROP TABLE pools CASCADE;
 DROP TABLE pool_route CASCADE;
-DROP TABLE user_pool CASCADE;
 
 CREATE TABLE users (
     username TEXT,
@@ -14,7 +13,7 @@ CREATE TABLE users (
 CREATE TABLE points (
 	lat FLOAT,
 	lon FLOAT,
-	ptime TEXT,
+	ptime TIMESTAMP,
 	id SERIAL PRIMARY KEY
 );
 
@@ -44,12 +43,4 @@ CREATE TABLE pool_route (
 	FOREIGN KEY (startpoint) REFERENCES points(id),
 	FOREIGN KEY (endpoint) REFERENCES points(id),
 	FOREIGN KEY (userid) REFERENCES users(id)
-);
-
-CREATE TABLE user_pool (
-	userid INTEGER,
-	poolid INTEGER,
-	PRIMARY KEY (userid, poolid),
-	FOREIGN KEY (userid) REFERENCES users(id),
-	FOREIGN KEY (poolid) REFERENCES pools(id)
 );
