@@ -6,6 +6,9 @@ import {lineString} from '@turf/helpers';
 import calcBbox from '@turf/bbox';
 import 'react-dropdown/style.css';
 import Waypoints from './Waypoints';
+import Sidebar from './Sidebar';
+import './Common.css';
+import './Map.css';
 
 
 interface Pool {
@@ -18,11 +21,12 @@ export default () => {
     accessToken:
       'pk.eyJ1IjoicGFsaWtrIiwiYSI6ImNqNDJ2bWZxcDB0aDgyd3Bjbzl0bnF0NmgifQ.Peq3TbCa8ALVbmbvsgfFvQ',
   });
-  
+
   const [geojson, setGeojson] = useState<any>(emptyJson);
   const [routes, setRoutes] = useState<Pool[]>([]);
   const [currentRoute, setCurrentRoute] = useState<number>(-1);
   const [center, setCenter] = useState<[number, number]>([24, 61]);
+  const [menuVisible, setMenuVisible] = useState<boolean>(false);
 
   const [waypointCoords, setWaypointCoords] = useState<[number, number][]>();
 
@@ -44,7 +48,7 @@ export default () => {
         if (map && map.current) {
           (map.current as any).fitBounds(bboxfc);
         }
-        
+
         setWaypointCoords(route.response.waypoints.map((w: any) => w.location))
         const geojson = route2Geojson(route.swappedRoute as [number, number][]);
         setGeojson(geojson);
@@ -84,9 +88,21 @@ export default () => {
     //const route = await getRouteJson([[23,61], [24, 61], [25, 61], [ev.lngLat.lng, ev.lngLat.lat]], "2020-10-10T08:00")
     //setGeojson(route);
   }
+
+  const onMenuClick = () => {
+    setMenuVisible(!menuVisible);
+  }
+
   return(
-    <>
-      <Dropdown className="dropdown" onChange={dropdownChange} value="Select pool" options={options} /*value={defaultOption}*/ placeholder="Select an option" />
+    <div id="container" className={menuVisible ? "container-menu-visible" : ""}>
+      <div className="header-container">
+        <Dropdown className="dropdown" onChange={onMenuClick} options={options} /*value={defaultOption}*/ placeholder="Choose a ride" />
+        <button className="menu-button" onClick={onMenuClick}>
+          <div className="menu-button-bar"/>
+          <div className="menu-button-bar"/>
+          <div className="menu-button-bar"/>
+        </button>
+      </div>
       <Map
         style='mapbox://styles/palikk/ckg3pb2011wja19olciykhatx'
         containerStyle={{
@@ -120,6 +136,7 @@ export default () => {
         />
         <Waypoints waypoints={waypointCoords}/>
       </Map>
-    </>
+      <Sidebar />
+    </div>
   );
 }

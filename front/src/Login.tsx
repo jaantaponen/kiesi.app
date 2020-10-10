@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import fetch from 'node-fetch';
+import './Common.css';
 import './Login.css';
 
 export default ({ refresh }: { refresh: any }) => {
