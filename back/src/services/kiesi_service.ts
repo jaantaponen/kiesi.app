@@ -1,3 +1,4 @@
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { Pool } = require('pg')
 const pool = new Pool({
@@ -8,7 +9,6 @@ const pool = new Pool({
   port: 8081,
 })
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const testConnection = async () => {
   try {
     const client = await pool.connect()
