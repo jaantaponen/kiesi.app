@@ -103,10 +103,10 @@ router.post('/search',
     const endpoint = point(reqq.endpoint)
     //console.log("distance between params " + distance(startpoint, endpoint))
     
-    const makePoints = pools.map((i: { userid: any; id: any; startlat: any; startlon: any; endlat: any; endlon: any; poolname: any }) => {
+    const makePoints = pools.map((i: { userid: any; id: any; startlat: any; startlon: any; endlat: any; endlon: any; poolname: any; poolid: any }) => {
       return {
         "userid": i.userid,
-        "poolid": i.id,
+        "poolid": i.poolid,
         "startpoint": point([i.startlon, i.startlat]),
         "endpoint": point([i.endlon, i.endlat]),
         "name": i.poolname
@@ -116,9 +116,17 @@ router.post('/search',
     const filtered = makePoints.filter((i: { startpoint: any; endpoint: any }) => {
       return distance(i.startpoint, startpoint) <= 20 && distance(i.endpoint, endpoint) <= 20
     })
-    console.log(filtered);
+    const foundId: number[] = [];
+    const ret = [];
+    for (let i = 0; i < filtered.length; i++) {
+      let id = filtered[i].poolid;
+      if (!foundId.includes(id)) {
+        foundId.push(id);
+        ret.push(filtered[i]);
+      }
+    };
     res.setHeader('Content-Type', 'application/json');
-    return res.status(200).send(filtered)
+    return res.status(200).send(ret)
 });
 
 
