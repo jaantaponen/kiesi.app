@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.dropdown {
+  position: absolute !important;
+  top: 7px;
+  left: 5vw;
+  width: 90vw;
+  z-index: 10;
+}

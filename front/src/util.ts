@@ -1,11 +1,10 @@
-
 import polyline from '@mapbox/polyline';
 import fetch from 'node-fetch';
 const decodePolyLine = (poly: string) => {
   return polyline.decode(poly);
 }
 
-const constructRoutingUrl = (coordinates: number[][], startDate: string) => {
+const constructRoutingUrl = (coordinates: [number, number][]) => {
   let urlString = '';
   coordinates.forEach((pair: number[], i: number) => {
     if (i > 0) urlString += ';';
@@ -15,8 +14,8 @@ const constructRoutingUrl = (coordinates: number[][], startDate: string) => {
   return url;
 }
 
-export const getRoute = async (coordinates: number[][], startDate: string) => {
-  const routeAns =  await fetch(constructRoutingUrl(coordinates, startDate));
+export const getRoute = async (coordinates: [number, number][]) => {
+  const routeAns =  await fetch(constructRoutingUrl(coordinates));
   const res = await routeAns.json();
   const decodedPoly = decodePolyLine(res.trips[0].geometry);
   return decodedPoly.map((pair: number[]) => {
@@ -38,8 +37,8 @@ export const emptyJson  = {
   ],
 }
 
-export const getRouteJson = async (coordinates: number[][], startDate: string) => {
-  const route = await getRoute(coordinates, startDate);
+export const getRouteJson = async (coordinates: [number, number][]) => {
+  const route = await getRoute(coordinates);
   const json = {
     'type': 'FeatureCollection',
     'features': [
@@ -54,4 +53,20 @@ export const getRouteJson = async (coordinates: number[][], startDate: string) =
     ],
   }
   return json;
+}
+
+export const route2Geojson = (route: [number, number][]) => {
+  return {
+    'type': 'FeatureCollection',
+    'features': [
+      {
+        'type': 'Feature',
+        'properties': {},
+        "geometry": {
+          "type": "LineString",
+          'coordinates': route
+        }
+      }
+    ],
+  }
 }

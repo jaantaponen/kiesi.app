@@ -7,6 +7,10 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@turf/bbox": "^6.0.1",
+    "@turf/bezier-spline": "^6.0.3",
+    "@turf/buffer": "^5.1.5",
+    "@turf/helpers": "^6.1.4",
     "@types/jest": "^24.9.1",
     "@types/mapbox__polyline": "^1.0.1",
     "@types/node": "^12.12.67",
@@ -16,6 +20,7 @@
     "node-fetch": "^2.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-dropdown": "^1.9.0",
     "react-mapbox-gl": "^4.8.6",
     "react-scripts": "3.4.3",
     "typescript": "^3.7.5"
