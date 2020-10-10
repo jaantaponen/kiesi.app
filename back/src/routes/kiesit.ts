@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
   let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: process.env.ACCESS_TOKEN_LIFE
   })
-
+ 
   //send the access token to the client inside a cookie
   res.cookie("jwt", accessToken, { secure: true, httpOnly: true })
   res.send()
