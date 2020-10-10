@@ -19,7 +19,6 @@ router.post('/login', async (req, res) => {
 
   const id = await kiesi_service.getUser(username, password)
 
-  // Neither do this!
   if (!id) {
     return res.status(401).send()
   }
@@ -47,6 +46,33 @@ router.get('/protected',
     return res.status(200).send((<any>req).user.user)
 });
 
+router.get('/pools',
+  jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
+  async (req, res) => {
+    console.log((<any>req).user)
+    if (!(<any>req).user) return res.sendStatus(401);
+    res.setHeader('Content-Type', 'application/json');
+
+    console.log((<any>req).user.user.id)
+    const pools = await kiesi_service.getPools((<any>req).user.user.id)
+
+    return res.status(200).send(pools)
+});
+
+router.post('/joinpool',
+  jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
+  async (req, res) => {
+    console.log((<any>req).user)
+    if (!(<any>req).user) return res.sendStatus(401);
+
+    const reqq = JSON.parse(req.body)
+    const startpoint = reqq.startpoint
+    const endpoint = reqq.endpoint
+    console.log(endpoint)
+    console.log(startpoint)
+
+    return res.status(200).send("temp")
+});
 
 /**
  * 
