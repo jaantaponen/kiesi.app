@@ -19,8 +19,8 @@ export default ({ refresh }: { refresh: any }) => {
 
   useEffect(() => {
     (async () => {
-      //await getJwt();
-      //refresh();
+      await getJwt();
+      refresh();
     })();
   }, [])
   return (

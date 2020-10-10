@@ -7,10 +7,6 @@ import calcBbox from '@turf/bbox';
 import 'react-dropdown/style.css';
 import Waypoints from './Waypoints';
 
-const Map = ReactMapboxGl({
-  accessToken:
-    'pk.eyJ1IjoicGFsaWtrIiwiYSI6ImNqNDJ2bWZxcDB0aDgyd3Bjbzl0bnF0NmgifQ.Peq3TbCa8ALVbmbvsgfFvQ',
-});
 
 interface Pool {
   route: [number, number][];
@@ -18,6 +14,11 @@ interface Pool {
 }
 
 export default () => {
+  const Map = ReactMapboxGl({
+    accessToken:
+      'pk.eyJ1IjoicGFsaWtrIiwiYSI6ImNqNDJ2bWZxcDB0aDgyd3Bjbzl0bnF0NmgifQ.Peq3TbCa8ALVbmbvsgfFvQ',
+  });
+  
   const [geojson, setGeojson] = useState<any>(emptyJson);
   const [routes, setRoutes] = useState<Pool[]>([]);
   const [currentRoute, setCurrentRoute] = useState<number>(-1);
@@ -85,7 +86,7 @@ export default () => {
   }
   return(
     <>
-      <Dropdown className="dropdown" onChange={dropdownChange} options={options} /*value={defaultOption}*/ placeholder="Select an option" />
+      <Dropdown className="dropdown" onChange={dropdownChange} value="Select pool" options={options} /*value={defaultOption}*/ placeholder="Select an option" />
       <Map
         style='mapbox://styles/palikk/ckg3pb2011wja19olciykhatx'
         containerStyle={{
@@ -100,10 +101,12 @@ export default () => {
         onClick={onClick}
       >
         <MapContext.Consumer>
-      {(_map) => {
-        map.current = _map;
-        return undefined;
-        }}
+        {(_map) => {
+          if (map.current) {
+            map.current = (_map as any);
+          }
+          return undefined;
+          }}
        </MapContext.Consumer>
         <GeoJSONLayer
           data={geojson}
