@@ -1,13 +1,13 @@
 version: '3'
 services:
   adminer:
-    image: adminer
+    image: adminer:4.7.7-fastcgi
     depends_on:
       - postgres
     ports:
       - 8080:8080
   postgres:
-    image: postgres # use latest official postgres version
+    image: postgres:13.0-alpine
     ports:
       - 8081:5432
     environment:
@@ -15,16 +15,17 @@ services:
       POSTGRES_DB: tunkkidb
       POSTGRES_USER: tunkkibois
     volumes:
-      - database-data:/var/lib/postgresql/data/
-      - ./sql/table_structure.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database-data:/var/lib/postgresql/data/
+      - ./sql/combined.sql:/docker-entrypoint-initdb.d/init.sql
   front:
     build: ./front
     ports:
       - 80:3000
+    volumes:
+      - ./front/src:/client/src
   back:
     build: ./back
     ports:
-      - 8082:3000
-
-volumes:
-  database-data:
+      - 8082:3001 
+    volumes:
+      - ./back/src:/back/src
