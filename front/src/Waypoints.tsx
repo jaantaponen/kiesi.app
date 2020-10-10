@@ -10,8 +10,8 @@ export default ({waypoints}: {waypoints?: [number, number][]}) => {
         "circle-color": "#00f",
       }}
     >
-      {waypoints?.length && waypoints.map((pair: [number, number]) => {
-        return <Feature coordinates={pair}/>
+      {waypoints?.length && waypoints.map((pair: [number, number], index: number) => {
+        return <Feature key={"waypoint-" + index} coordinates={pair}/>
       })}
     </Layer>
   )
