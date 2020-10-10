@@ -3,6 +3,7 @@ import './App.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Map from './Map';
 import Login from './Login';
+import PoolTool from './PoolTool';
 
 
 const tokenInStorage = () => {
@@ -16,10 +17,13 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        {isLoggedIn ? 
+        <Route path="/">
+          <PoolTool />
+        </Route>
+        { /*isLoggedIn ? 
           <Route path="/">
             <Map />
-          </Route> : <Login refresh={refresh} />}
+        </Route> : <Login refresh={refresh} /> */}
       </BrowserRouter>
     </div>
   );
