@@ -16,17 +16,19 @@ function App() {
   }
   return (
     <div className="App">
-      <BrowserRouter>
-        <Route path="/">
-          <PoolTool />
-        </Route>
-        { /*isLoggedIn ? 
-          <Route path="/">
-            <Map />
-        </Route> : <Login refresh={refresh} /> */}
-      </BrowserRouter>
+      <Map />
     </div>
   );
 }
-
+/*
+<BrowserRouter>
+        <Route path="/tool">
+          <PoolTool />
+        </Route>
+        { isLoggedIn ? 
+          <Route path="/">
+            <Map />
+        </Route> : <Login refresh={refresh} /> }
+      </BrowserRouter>
+      */
 export default App;
