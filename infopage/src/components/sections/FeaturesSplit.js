@@ -50,8 +50,8 @@ const FeaturesSplit = ({
   );
 
   const sectionHeader = {
-    title: 'Workflow that just works',
-    paragraph: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum — semper quis lectus nulla at volutpat diam ut venenatis.'
+    title: 'We bring rides to you',
+    paragraph: 'Kiesi has been designed from the ground up to give you the smoothest possible exprience for ride sharing. The app will match you with others based on your route, making sure that everyone\'s preferences are taken into account. Start sharing rides today, saving money and environment.'
   };
 
   return (
