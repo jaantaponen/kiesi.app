@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Grid, Input, InputLabel, Select, TextField, Button, List, ListItem, Modal, Paper } from '@material-ui/core';
 import './PoolTool.css';
 import Geocode from "react-geocode";
-import { addPool, searchPools, useDebounce } from './util';
-import { ToastContainer, toast } from 'react-toastify';
+import { addPool, joinPool, searchPools, useDebounce } from './util';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useHistory } from 'react-router-dom';
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
 Geocode.setApiKey("AIzaSyDP3c1RZFI28zKdx37IqDN1q2h8ALDHv3k");
 Geocode.setLanguage("fi");
@@ -23,7 +24,7 @@ export default () => {
   const originDebounced = useDebounce(originQuery, 500);
   const destinationDebounced = useDebounce(destinationQuery, 500);
   const [arrDep, setArrDep] = useState<string>();
-
+  const history = useHistory();
 
   const [routeName, setRouteName] = useState<string>("");
   const [pools, setPools] = useState<any>(undefined);
@@ -68,10 +69,8 @@ export default () => {
       })();
     }
   }, [destinationDebounced]);
-  const [center, setCenter] = useState<[number, number]>([24, 61]);
   return (
     <>
-      <ToastContainer />
       <Grid spacing={1} alignContent={"flex-start"} container={true} direction={"column"}>
         <Grid style={{ width: "75vw", marginTop: "20px !important" }} item={true}>
           <InputLabel htmlFor="origin">Origin address</InputLabel>
@@ -124,7 +123,7 @@ export default () => {
             (async () => {
               if (originCoords?.length && destinationCoords?.length) {
                 const ans = await searchPools(originCoords, destinationCoords);
-                const p = ans.map((a: any) => { return { name: a.name, id: a.poolid } });
+                const p = ans.map((a: any) => { return { name: a.name, poolid: a.poolid } });
                 setPools(p);
               }
             })();
@@ -140,7 +139,15 @@ export default () => {
               <List>
                 {pools.map((pool: any) => {
                   return (<ListItem>
-                    {pool.name}
+                    {pool.name} <Button color="primary" variant="outlined" onClick={() => {
+                      if (originCoords?.length && destinationCoords?.length) {
+                        toast("Joining pool");
+                        joinPool(originCoords, destinationCoords, pool.poolid);
+                      } else {
+                        toast("Joining failed");
+                      }
+                      history.push("/");
+                    }} >Join pool</Button>
                   </ListItem>)
                 })}
               </List>

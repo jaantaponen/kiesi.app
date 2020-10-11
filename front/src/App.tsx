@@ -7,6 +7,7 @@ import PoolTool from './PoolTool';
 import Sidebar from './Sidebar';
 import MenuButton from './MenuButton';
 
+import { ToastContainer } from 'react-toastify';
 
 const tokenInStorage = () => {
   return localStorage.getItem('token') !== null;
@@ -33,6 +34,7 @@ function App() {
   }
   return (
     <div className="App">
+      <ToastContainer />
       <Switch>
         <Route path="/login" component={Login} />
         <div>
