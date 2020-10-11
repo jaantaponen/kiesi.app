@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  margin-top: -3px;
 }
 
 .App-logo {
@@ -48,7 +49,9 @@
 #container {
   transition: margin-left 0.2s, margin-right 0.2s;
   position: relative;
-  height: 100vh;
+  height: 101vh;
+  z-index: 10;
+  background-color: white;
 }
 
 .container-menu-visible {

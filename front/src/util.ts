@@ -68,17 +68,15 @@ export const route2Geojson = (route: [number, number][]) => {
 
 export const getPools = async () => {
   const token = localStorage.getItem('token')
-  console.log(token);
-  const res = await fetch('http://localhost:3001/pools', {
+  const res = await fetch('http://192.168.5.172:3001/pools', {
     headers: {'Authorization': 'bearer ' + token},
   });
   const json = await res.json();
-  console.log(json)
   const locations = [];
   const names: string[] = [];
   for (let i = 0; i < json.length; i++) {
     names.push(json[i].poolname);
-    const res2 = await fetch('http://localhost:3001/pool-locations/' + json[i].poolid, {
+    const res2 = await fetch('http://192.168.5.172:3001/pool-locations/' + json[i].poolid, {
       headers: {'Authorization': 'bearer ' + token},
     });
     locations.push(await res2.json());
@@ -86,6 +84,26 @@ export const getPools = async () => {
   return {names, locations};
 }
 
+export const searchPools = async (startpoint: [number, number], endpoint: [number, number]) => {
+  const token = localStorage.getItem('token')
+  const res = await fetch('http://192.168.5.172:3001/search', {
+    headers: {'Authorization': 'bearer ' + token},
+    method: 'POST',
+    body: JSON.stringify({startpoint, endpoint})
+  });
+  const json = await res.json();
+  return json;
+}
+
+export const addPool = async (startpoint: [number, number], endpoint: [number, number], poolname: string) => {
+  const token = localStorage.getItem('token')
+  const res = await fetch('http://192.168.5.172:3001/createpool', {
+    headers: {'Authorization': 'bearer ' + token},
+    method: 'POST',
+    body: JSON.stringify({startpoint, endpoint, poolname})
+  });
+  return res.ok;
+}
 
 export function useDebounce<T>(value: T, delay: number = 200) {
   // State and setters for debounced value

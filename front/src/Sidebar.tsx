@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
 export default ({setVisible}: {setVisible: any}) => {
   const menuItems = [
     {id: "main", title: "My pools"},
     {id: "join", title: "Join a pool"},
-    {id: "settings", title: "Settings"}
+    {id: "logout", title: "Logout"}
   ];
 
   const [activeItem, setActiveItem] = useState<string>("main");
   const history = useHistory();
+  const location = useLocation();
   const menuItemClicked = (id: string) => {
     setActiveItem(id);
     if (id === 'join') {
       history.push("/tool");
     } else if (id === 'main') {
       history.push("/");
+    } else if (id === 'logout') {
+      window.localStorage.removeItem('token');
     }
     setVisible(false);
   }
