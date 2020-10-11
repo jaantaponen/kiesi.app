@@ -10,7 +10,7 @@ var jwtmiddleware = require('express-jwt')
 
 router.get('/', async (_request, response) => {
   await kiesi_service.testConnection()
-  response.status(200).send("nauraaaaa")
+  response.status(200).send("pistetaan pojalle pipo paalle")
 })
 
 router.post('/login', async (req, res) => {

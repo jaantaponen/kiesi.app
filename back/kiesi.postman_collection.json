@@ -170,7 +170,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"startpoint\" : [25.317654, 60.634476],\n    \"endpoint\": [24.832691, 60.176931],\n    \"poolname\" : \"vittunauraa\"\n}",
+					"raw": "{\n    \"startpoint\" : [25.317654, 60.634476],\n    \"endpoint\": [24.832691, 60.176931],\n    \"poolname\" : \"nauraa\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
