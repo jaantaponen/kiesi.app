@@ -144,8 +144,8 @@ export default () => {
             <Grid item={true}>
               <List>
                 {pools.map((pool: any) => {
-                  return (<ListItem>
-                    {pool.name} <Button color="primary" variant="outlined" onClick={() => {
+                  return (<ListItem key={pool.poolid}>
+                    {pool.name} <Button style={{color: "#FF650F"}} variant="outlined" onClick={() => {
                       if (originCoords?.length && destinationCoords?.length) {
                         toast("Joining pool");
                         joinPool(originCoords, destinationCoords, pool.poolid);
@@ -159,7 +159,7 @@ export default () => {
               </List>
             </Grid> : <Grid item={true}>No routes found</Grid>}
             <Grid item={true}>
-              <Button onClick={() => {
+              <Button style={{color: "#FF650F", fontWeight: "bold"}} onClick={() => {
                 setModalOpen(true);
               }}>Create new pool</Button>
             </Grid>
@@ -169,36 +169,43 @@ export default () => {
         open={modalOpen}
       //onClose={handleClose}
       >
-        <Paper style={{ position: "absolute", left: "10vw", top: "10vw", height: "80vh", width: "80vw" }}>
-          <Grid direction="column" container={true}>
-            <Grid style={{ border: "0px" }} item={true}>
-              <Button color="primary" onClick={() => {
-                (async () => {
-                  if (originCoords && destinationCoords && routeName) {
-                    const status = addPool(originCoords, destinationCoords, routeName);
-                    if (!status) {
-                      console.error("cant post");
-                    }
-                  } else {
-                    console.error("cant post");
-                  }
-                })();
-              }}>save</Button>
-              <Button color="secondary" onClick={() => {
-                setModalOpen(false);
-              }}>close</Button>
-            </Grid>
-            <Grid style={{ border: "0px" }} item={true}>
+        <Paper style={{ width: "400px", marginTop: "40px", marginLeft: "auto", marginRight: "auto", maxHeight: "80vh", maxWidth: "80vw" }}>
+          <Grid direction="column" container style={{padding: "20px"}}>
+            <Grid style={{ border: "0px" }} item>
               Origin: {originQuery}
             </Grid>
-            <Grid style={{ border: "0px" }} item={true}>
+            <Grid style={{ border: "0px" }} item>
               Destination: {destinationQuery}
             </Grid>
-            <Grid style={{ border: "0px" }} item={true}>
+            <Grid style={{ border: "0px", marginTop: "10px" }} item>
               Route name: <Input id="name" onChange={(ev: any) => {
                 setRouteName(ev.target.value);
               }} />
             </Grid>
+          </Grid>
+          <Grid justify="flex-end" style={{ border: "0px", marginBottom: "20px" }} item container>
+            <Button color="secondary" onClick={() => {
+              setModalOpen(false);
+            }}>close</Button>
+            <Button color="primary" onClick={() => {
+              try {
+                (async () => {
+                if (originCoords && destinationCoords && routeName) {
+                  const status = addPool(originCoords, destinationCoords, routeName);
+                  if (!status) {
+                    console.error("cant post");
+                    toast("Failed to create a route :/");
+                  } else {
+                    toast("New carpool route created!");
+                    history.push("/");
+                  }
+                } else {
+                  console.error("cant post");
+                  toast("Failed to create a route :/")
+                }
+              })()
+            } catch (e) { console.error(e); };
+            }}>save</Button>
           </Grid>
         </Paper>
       </Modal>
