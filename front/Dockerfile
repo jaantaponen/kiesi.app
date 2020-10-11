@@ -4,5 +4,6 @@ WORKDIR /client
 COPY package*.json ./
 RUN npm ci
 COPY . .
+RUN npm run build
 EXPOSE 3000
-CMD ["node", "/client/node_modules/serve/bin/serve.js", "/client/build", "-p", "3000"]
+CMD ["npm","run", "serve"]

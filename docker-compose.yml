@@ -18,7 +18,7 @@ services:
   front:
     build: ./front
     #ports:
-    #  - 3000:3000
+    #  - 3000:5000
     #volumes:
     #  - ./front/src:/client/src
   back:
