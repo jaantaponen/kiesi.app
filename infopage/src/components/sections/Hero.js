@@ -83,7 +83,7 @@ const Hero = ({
           
               <Image
                 className="has-shadow"
-                src="https://i.imgur.com/3AiWufV.png"
+                src={require('./../../assets/images/ipad.png')}
                 alt="Hero"
                 width={896}
                 height={504} />
