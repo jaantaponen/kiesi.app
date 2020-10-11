@@ -40,8 +40,10 @@ export default (props: any) => {
 
         const line = lineString(route.swappedRoute);
         const bboxfc = calcBbox(line)
-        bboxfc[1] -= 0.2;
-        bboxfc[3] += 0.2;
+        bboxfc[0] -= 0.1;
+        bboxfc[1] -= 0.1;
+        bboxfc[2] += 0.1;
+        bboxfc[3] += 0.1;
 
         if (map && map.current) {
           (map.current as any).fitBounds(bboxfc);

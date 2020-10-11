@@ -11,7 +11,6 @@ export default ({setVisible}: {setVisible: any}) => {
 
   const [activeItem, setActiveItem] = useState<string>("main");
   const history = useHistory();
-  const location = useLocation();
   const menuItemClicked = (id: string) => {
     setActiveItem(id);
     if (id === 'join') {
@@ -29,6 +28,7 @@ export default ({setVisible}: {setVisible: any}) => {
       <h1>kiesi.app</h1>
       { menuItems.map(menuItem =>
         <a
+          key={menuItem.id}
           className={`sidebar-row ${activeItem === menuItem.id ? "selected" : ""}`}
           onClick={(e) => menuItemClicked(menuItem.id)}
         >

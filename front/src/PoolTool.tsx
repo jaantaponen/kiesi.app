@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, FormControl, FormHelperText, Input, InputLabel, Select, TextField, Button, List, ListItem, Divider, Modal, Paper } from '@material-ui/core';
+import { Grid, Input, InputLabel, Select, TextField, Button, List, ListItem, Modal, Paper } from '@material-ui/core';
 import './PoolTool.css';
 import Geocode from "react-geocode";
-import ReactMapboxGl, { GeoJSONLayer, Layer, MapContext } from 'react-mapbox-gl';
 import { addPool, searchPools, useDebounce } from './util';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
