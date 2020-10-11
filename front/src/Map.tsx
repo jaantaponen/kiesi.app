@@ -26,11 +26,11 @@ export default (props: any) => {
 
   const [geojson, setGeojson] = useState<any>(emptyJson);
   const [routes, setRoutes] = useState<Pool[]>([]);
+  const [poolNames, setPoolNames] = useState<string[]>([]);
   const [currentRoute, setCurrentRoute] = useState<number>(-1);
   const [center, setCenter] = useState<[number, number]>([24, 61]);
 
   const [waypointCoords, setWaypointCoords] = useState<[number, number][]>();
-  const [options, setOptions] = useState<string[]>([]);
   const map = useRef(undefined);
 
   useEffect(() => {
@@ -55,32 +55,8 @@ export default (props: any) => {
   }, [currentRoute])
 
   const dropdownChange = (v: Option) => {
-    console.log(v);
-    setCurrentRoute(options.indexOf(v.value));
+    setCurrentRoute((poolNames as any).indexOf(v.value));
   }
-
-  useEffect(() => {
-    setRoutes([
-      {route: [
-        [23, 60],
-        [24, 61],
-        [23, 62],
-        [24, 63],
-        [23, 64]
-      ]},{route:[
-        [23, 60],
-        [24, 63],
-        [23, 62],
-        [24, 61],
-        [23, 64]
-      ]},{route:[
-        [26, 61],
-        [25, 60],
-        [23, 60],
-        [23, 63]
-      ],pairs: [[2, 1]]}
-  ]);
-  }, [])
 
   useEffect(() => {
     (async () => {
@@ -88,10 +64,10 @@ export default (props: any) => {
       console.log(pools);
       const routeObjects: any = [];
       const opts = [];
-      for (let i = 0; i < pools.length; i++) {
+      for (let i = 0; i < pools.locations.length; i++) {
         const current: any = {route: []};
-        const driver = pools[i].filter((a: any) => a.isdriver)[0];
-        const rest = pools[i].filter((a: any) => !a.isdriver);
+        const driver = pools.locations[i].filter((a: any) => a.isdriver)[0];
+        const rest = pools.locations[i].filter((a: any) => !a.isdriver);
         current.route.push([driver.startlon, driver.startlat]);
         for (let a = 0; a < rest.length; a++) {
           current.route.push([rest[a].startlon, rest[a].startlat])
@@ -103,9 +79,8 @@ export default (props: any) => {
         routeObjects.push(current)
         opts.push(i.toString());
       }
-      setOptions(opts);
       setRoutes(routeObjects);
-
+      setPoolNames(pools.names);
     })();
   }, []);
 
@@ -116,7 +91,7 @@ export default (props: any) => {
 
   return(
     <div>
-      <Dropdown className="dropdown" onChange={dropdownChange} options={options} /*value={defaultOption}*/ placeholder="Choose a ride" />
+      <Dropdown className="dropdown" onChange={dropdownChange} options={poolNames} /*value={defaultOption}*/ placeholder="Choose a ride" />
       <Map
         style='mapbox://styles/palikk/ckg3pb2011wja19olciykhatx'
         containerStyle={{

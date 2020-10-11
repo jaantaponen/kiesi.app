@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import './Sidebar.css';
 
-export default () => {
+export default ({setVisible}: {setVisible: any}) => {
   const menuItems = [
     {id: "main", title: "My pools"},
     {id: "join", title: "Join a pool"},
@@ -9,9 +10,15 @@ export default () => {
   ];
 
   const [activeItem, setActiveItem] = useState<string>("main");
-
+  const history = useHistory();
   const menuItemClicked = (id: string) => {
     setActiveItem(id);
+    if (id === 'join') {
+      history.push("/tool");
+    } else if (id === 'main') {
+      history.push("/");
+    }
+    setVisible(false);
   }
 
   return (
