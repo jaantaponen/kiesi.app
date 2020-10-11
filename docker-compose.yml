@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   adminer:
     image: adminer
@@ -17,42 +17,34 @@ services:
       - ./sql/combined.sql:/docker-entrypoint-initdb.d/init.sql
   front:
     build: ./front
-    ports:
-      - 3000:3000
-    volumes:
-      - ./front/src:/client/src
+    #ports:
+    #  - 3000:3000
+    #volumes:
+    #  - ./front/src:/client/src
   back:
     build: ./back
-    ports:
-      - 3001:3001 
-    volumes:
-      - ./back/src:/back/src
-  
+    #ports:
+    #  - 3001:3001
+    #volumes:
+    #  - ./back/src:/back/src
+
   infopage:
     build: ./infopage
-    ports:
-      - 5000:5000
-  
+    #ports:
+    #  - 5000:5000
+
   nginx-proxy:
-    image: staticfloat/nginx-certbot
+    image: jwilder/nginx-proxy
     container_name: nginx-proxy
     ports:
-      - "80:80"
+     # - "80:80"
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./conf.d:/etc/nginx/user.conf.d:ro
-      - letsencrypt:/etc/letsencrypt
-    environment:
-      CERTBOT_EMAIL: jaan.taponen@aalto.fi
-    depends_on:
-     - front
-
-
-volumes:
-  letsencrypt:
+      - ./certs:/etc/nginx/certs
+      - ./nginx.conf:/etc/nginx/nginx.conf
 
 networks:
   default:
-    name: servu
     driver: bridge
+
