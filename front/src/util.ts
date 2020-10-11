@@ -68,7 +68,7 @@ export const route2Geojson = (route: [number, number][]) => {
 
 export const getPools = async () => {
   const token = localStorage.getItem('token')
-  const res = await fetch('http://192.168.5.172:3001/pools', {
+  const res = await fetch('/api/pools', {
     headers: {'Authorization': 'bearer ' + token},
   });
   const json = await res.json();
@@ -76,7 +76,7 @@ export const getPools = async () => {
   const names: string[] = [];
   for (let i = 0; i < json.length; i++) {
     names.push(json[i].poolname);
-    const res2 = await fetch('http://192.168.5.172:3001/pool-locations/' + json[i].poolid, {
+    const res2 = await fetch('/api/pool-locations/' + json[i].poolid, {
       headers: {'Authorization': 'bearer ' + token},
     });
     locations.push(await res2.json());
@@ -86,7 +86,7 @@ export const getPools = async () => {
 
 export const searchPools = async (startpoint: [number, number], endpoint: [number, number]) => {
   const token = localStorage.getItem('token')
-  const res = await fetch('http://192.168.5.172:3001/search', {
+  const res = await fetch('/api/search', {
     headers: {'Authorization': 'bearer ' + token},
     method: 'POST',
     body: JSON.stringify({startpoint, endpoint})
@@ -97,7 +97,7 @@ export const searchPools = async (startpoint: [number, number], endpoint: [numbe
 
 export const addPool = async (startpoint: [number, number], endpoint: [number, number], poolname: string) => {
   const token = localStorage.getItem('token')
-  const res = await fetch('http://192.168.5.172:3001/createpool', {
+  const res = await fetch('/api/createpool', {
     headers: {'Authorization': 'bearer ' + token},
     method: 'POST',
     body: JSON.stringify({startpoint, endpoint, poolname})
@@ -107,7 +107,7 @@ export const addPool = async (startpoint: [number, number], endpoint: [number, n
 
 export const joinPool = async (startpoint: [number, number], endpoint: [number, number], poolid: string) => {
   const token = localStorage.getItem('token')
-  const res = await fetch('http://192.168.5.172:3001/joinpool', {
+  const res = await fetch('/api/joinpool', {
     headers: {'Authorization': 'bearer ' + token},
     method: 'POST',
     body: JSON.stringify({startpoint, endpoint, poolid})
