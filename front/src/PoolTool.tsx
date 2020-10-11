@@ -88,7 +88,7 @@ export default () => {
             setDestinationQuery(ev.target.value);
           }} />
         </Grid>
-        <Grid spacing={2} wrap="nowrap" justify="space-between" container item>
+        <Grid spacing={0} wrap="nowrap" justify="space-between" container item>
           <Grid item>
             <Select
               className={"time-type-select"}
@@ -111,7 +111,7 @@ export default () => {
           </Grid>
           <Grid item>
             <TextField
-              style={{ height: "30px", width: "40px" }}
+              style={{ height: "30px", width: "80px" }}
               id="time"
               type="time"
               defaultValue="07:30"
