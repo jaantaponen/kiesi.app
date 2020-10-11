@@ -1,4 +1,4 @@
-FROM node:12.18-alpine3.12
+FROM node:lts-buster
 RUN mkdir /client
 WORKDIR /client
 COPY package*.json ./
