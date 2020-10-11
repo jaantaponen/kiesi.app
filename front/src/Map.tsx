@@ -21,14 +21,13 @@ const Map = ReactMapboxGl({
   accessToken:
     'pk.eyJ1IjoicGFsaWtrIiwiYSI6ImNqNDJ2bWZxcDB0aDgyd3Bjbzl0bnF0NmgifQ.Peq3TbCa8ALVbmbvsgfFvQ',
 });
-export default () => {
+export default (props: any) => {
 
 
   const [geojson, setGeojson] = useState<any>(emptyJson);
   const [routes, setRoutes] = useState<Pool[]>([]);
   const [currentRoute, setCurrentRoute] = useState<number>(-1);
   const [center, setCenter] = useState<[number, number]>([24, 61]);
-  const [menuVisible, setMenuVisible] = useState<boolean>(false);
 
   const [waypointCoords, setWaypointCoords] = useState<[number, number][]>();
   const [options, setOptions] = useState<string[]>([]);
@@ -115,16 +114,9 @@ export default () => {
     //setGeojson(route);
   }
 
-  const onMenuClick = () => {
-    setMenuVisible(!menuVisible);
-  }
-
   return(
-    <div id="container" className={menuVisible ? "container-menu-visible" : ""}>
-      <div className="header-container">
-        <Dropdown className="dropdown" onChange={dropdownChange} options={options} /*value={defaultOption}*/ placeholder="Choose a ride" />
-        <MenuButton onClick={onMenuClick} />
-      </div>
+    <div>
+      <Dropdown className="dropdown" onChange={dropdownChange} options={options} /*value={defaultOption}*/ placeholder="Choose a ride" />
       <Map
         style='mapbox://styles/palikk/ckg3pb2011wja19olciykhatx'
         containerStyle={{
@@ -156,7 +148,6 @@ export default () => {
         />
         <Waypoints waypoints={waypointCoords}/>
       </Map>
-      <Sidebar />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Sidebar.css';
-import { useHistory } from 'react-router-dom';
+
 export default () => {
   const menuItems = [
     {id: "main", title: "My pools"},
@@ -10,11 +10,8 @@ export default () => {
 
   const [activeItem, setActiveItem] = useState<string>("main");
 
-  const history = useHistory();
   const menuItemClicked = (id: string) => {
-    console.log(id);
     setActiveItem(id);
-    history.push("/tool");
   }
 
   return (

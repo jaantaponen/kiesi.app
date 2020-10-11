@@ -1,20 +1,3 @@
-#container {
-  transition: margin-left 0.2s, margin-right 0.2s;
-}
-
-.mapboxgl-map {
-  transition: left 0.2s;
-}
-
-.container-menu-visible {
-  margin-left: -280px;
-  margin-right: 280px;
-}
-
-.container-menu-visible .mapboxgl-map {
-  left: -280px;
-}
-
 .Dropdown-control {
   font-weight: bold;
   border-radius: 22px;
@@ -39,16 +22,10 @@
   border-bottom-right-radius: 22px;
 }
 
-.header-container {
-  display: flex;
-  margin: 24px;
-  align-items: flex-start;
-}
-
 .dropdown {
-  position: static !important;
-  width: auto;
-  flex-grow: 1;
+  left: 24px;
+  top: 24px;
+  right: 32px;
 }
 
 .mapboxgl-map {
