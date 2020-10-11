@@ -141,7 +141,11 @@ router.post('/search',
         "name": i.poolname
       }
     })
-    //console.log(makePoints)
+    const userId = (<any>req).user.user.id
+    const userPools = await kiesi_service.getPoolsForUser(userId)
+    const userPoolId = userPools.map((i: { poolid: any }) => {
+      return i.poolid;
+    });
     const filtered = makePoints.filter((i: { startpoint: any; endpoint: any }) => {
       return distance(i.startpoint, startpoint) <= 20 && distance(i.endpoint, endpoint) <= 20
     })
@@ -151,7 +155,10 @@ router.post('/search',
       let id = filtered[i].poolid;
       if (!foundId.includes(id)) {
         foundId.push(id);
-        ret.push(filtered[i]);
+        console.log(!userPoolId.includes(id));
+        if(!userPoolId.includes(id)) {
+          ret.push(filtered[i]);
+        }
       }
     };
     res.setHeader('Content-Type', 'application/json');

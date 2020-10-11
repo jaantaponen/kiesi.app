@@ -13,7 +13,7 @@ export default () => {
   const [tokenExists, setToken] = useState("");
   const getJwt = async () => {
     try {
-      const res = await fetch('http://localhost:3001/login', {
+      const res = await fetch('http://192.168.5.172:3001/login', {
         method: "POST",
         body: JSON.stringify({username: name, password: password}),
       });

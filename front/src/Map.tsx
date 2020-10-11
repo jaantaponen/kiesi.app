@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactMapboxGl, { GeoJSONLayer, MapContext } from 'react-mapbox-gl';
-import { emptyJson, getRoute, route2Geojson } from './util';
+import { emptyJson, getPools, getRoute, route2Geojson } from './util';
 import Dropdown, { Option } from 'react-dropdown';
 import {lineString} from '@turf/helpers';
 import calcBbox from '@turf/bbox';
 import 'react-dropdown/style.css';
 import Waypoints from './Waypoints';
+import MenuButton from './MenuButton';
 import Sidebar from './Sidebar';
 import './Common.css';
 import './Map.css';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 
 interface Pool {
@@ -19,21 +21,17 @@ const Map = ReactMapboxGl({
   accessToken:
     'pk.eyJ1IjoicGFsaWtrIiwiYSI6ImNqNDJ2bWZxcDB0aDgyd3Bjbzl0bnF0NmgifQ.Peq3TbCa8ALVbmbvsgfFvQ',
 });
-export default () => {
+export default (props: any) => {
 
-  
+
   const [geojson, setGeojson] = useState<any>(emptyJson);
   const [routes, setRoutes] = useState<Pool[]>([]);
+  const [poolNames, setPoolNames] = useState<string[]>([]);
   const [currentRoute, setCurrentRoute] = useState<number>(-1);
   const [center, setCenter] = useState<[number, number]>([24, 61]);
-  const [menuVisible, setMenuVisible] = useState<boolean>(false);
 
   const [waypointCoords, setWaypointCoords] = useState<[number, number][]>();
-
   const map = useRef(undefined);
-  const options = [
-    'one', 'two', 'three'
-  ];
 
   useEffect(() => {
     (async () => {
@@ -42,8 +40,10 @@ export default () => {
 
         const line = lineString(route.swappedRoute);
         const bboxfc = calcBbox(line)
-        bboxfc[1] -= 1;
-        bboxfc[3] += 1;
+        bboxfc[0] -= 0.1;
+        bboxfc[1] -= 0.1;
+        bboxfc[2] += 0.1;
+        bboxfc[3] += 0.1;
 
         if (map && map.current) {
           (map.current as any).fitBounds(bboxfc);
@@ -57,52 +57,43 @@ export default () => {
   }, [currentRoute])
 
   const dropdownChange = (v: Option) => {
-    console.log(v);
-    setCurrentRoute(options.indexOf(v.value));
+    setCurrentRoute((poolNames as any).indexOf(v.value));
   }
 
   useEffect(() => {
-    setRoutes([
-      {route: [
-        [23, 60],
-        [24, 61],
-        [23, 62],
-        [24, 63],
-        [23, 64]
-      ]},{route:[
-        [23, 60],
-        [24, 63],
-        [23, 62],
-        [24, 61],
-        [23, 64]
-      ]},{route:[
-        [26, 61],
-        [25, 60],
-        [23, 60],
-        [23, 63]
-      ],pairs: [[2, 1]]}
-  ]);
-  }, [])
+    (async () => {
+      const pools = await getPools();
+      console.log(pools);
+      const routeObjects: any = [];
+      const opts = [];
+      for (let i = 0; i < pools.locations.length; i++) {
+        const current: any = {route: []};
+        const driver = pools.locations[i].filter((a: any) => a.isdriver)[0];
+        const rest = pools.locations[i].filter((a: any) => !a.isdriver);
+        current.route.push([driver.startlon, driver.startlat]);
+        for (let a = 0; a < rest.length; a++) {
+          current.route.push([rest[a].startlon, rest[a].startlat])
+        }
+        for (let a = 0; a < rest.length; a++) {
+          current.route.push([rest[a].endlon, rest[a].endlat])
+        }
+        current.route.push([driver.endlon, driver.endlat]);
+        routeObjects.push(current)
+        opts.push(i.toString());
+      }
+      setRoutes(routeObjects);
+      setPoolNames(pools.names);
+    })();
+  }, []);
 
   const onClick = async (map: any, ev: any) => {
     //const route = await getRouteJson([[23,61], [24, 61], [25, 61], [ev.lngLat.lng, ev.lngLat.lat]], "2020-10-10T08:00")
     //setGeojson(route);
   }
 
-  const onMenuClick = () => {
-    setMenuVisible(!menuVisible);
-  }
-
   return(
-    <div id="container" className={menuVisible ? "container-menu-visible" : ""}>
-      <div className="header-container">
-        <Dropdown className="dropdown" onChange={onMenuClick} options={options} /*value={defaultOption}*/ placeholder="Choose a ride" />
-        <button className="menu-button" onClick={onMenuClick}>
-          <div className="menu-button-bar"/>
-          <div className="menu-button-bar"/>
-          <div className="menu-button-bar"/>
-        </button>
-      </div>
+    <div>
+      <Dropdown className="dropdown" onChange={dropdownChange} options={poolNames} /*value={defaultOption}*/ placeholder="Choose a ride" />
       <Map
         style='mapbox://styles/palikk/ckg3pb2011wja19olciykhatx'
         containerStyle={{
@@ -134,7 +125,6 @@ export default () => {
         />
         <Waypoints waypoints={waypointCoords}/>
       </Map>
-      <Sidebar />
     </div>
   );
 }
