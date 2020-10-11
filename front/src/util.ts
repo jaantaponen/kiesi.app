@@ -105,6 +105,16 @@ export const addPool = async (startpoint: [number, number], endpoint: [number, n
   return res.ok;
 }
 
+export const joinPool = async (startpoint: [number, number], endpoint: [number, number], poolid: string) => {
+  const token = localStorage.getItem('token')
+  const res = await fetch('http://192.168.5.172:3001/joinpool', {
+    headers: {'Authorization': 'bearer ' + token},
+    method: 'POST',
+    body: JSON.stringify({startpoint, endpoint, poolid})
+  });
+  return res.ok;
+}
+
 export function useDebounce<T>(value: T, delay: number = 200) {
   // State and setters for debounced value
   const [debouncedValue, setDebouncedValue] = useState(value);
