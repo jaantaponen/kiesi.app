@@ -66,6 +66,25 @@ export const route2Geojson = (route: [number, number][]) => {
   }
 }
 
+export const getPools = async () => {
+  const token = localStorage.getItem('token')
+  console.log(token);
+  const res = await fetch('http://localhost:3001/pools', {
+    headers: {'Authorization': 'bearer ' + token},
+  });
+  const json = await res.json();
+  console.log(json)
+  const locations = [];
+  for (let i = 0; i < json.length; i++) {
+    const res2 = await fetch('http://localhost:3001/pool-locations/' + json[i].poolid, {
+      headers: {'Authorization': 'bearer ' + token},
+    });
+    locations.push(await res2.json());
+  }
+  return locations;
+}
+
+
 export function useDebounce<T>(value: T, delay: number = 200) {
   // State and setters for debounced value
   const [debouncedValue, setDebouncedValue] = useState(value);
