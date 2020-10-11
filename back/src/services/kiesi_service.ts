@@ -85,8 +85,9 @@ const getPoolsForUser = async (userid: any) => {
   try {
     const client = await pool.connect()
     try {
-      const res = await client.query('SELECT * FROM pool_route WHERE userid=$1', [userid])
-      console.log(res.rows)
+
+      const res = await client.query(getPoolsByUserQuery, [userid])
+      //console.log(res.rows)
       return res.rows
     } finally {
       // Make sure to release the client before any error handling,
@@ -148,6 +149,10 @@ const getPoolsWithLocations = async () => {
     console.log(err.stack)
   }
 }
+
+const getPoolsByUserQuery= `SELECT pool_route.poolid, pools.poolname FROM pool_route
+LEFT OUTER JOIN pools ON pool_route.poolid=pools.id
+WHERE pool_route.userid=$1`
 
 const getPoolLocationQuery = `SELECT p1.lat AS startlat, p1.lon AS startlon, pool_route.userid, pool_route.id AS routeid, pool_route.poolid,
 p2.lat AS endlat, p2.lon AS endlon,
