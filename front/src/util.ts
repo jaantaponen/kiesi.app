@@ -75,13 +75,15 @@ export const getPools = async () => {
   const json = await res.json();
   console.log(json)
   const locations = [];
+  const names: string[] = [];
   for (let i = 0; i < json.length; i++) {
+    names.push(json[i].poolname);
     const res2 = await fetch('http://localhost:3001/pool-locations/' + json[i].poolid, {
       headers: {'Authorization': 'bearer ' + token},
     });
     locations.push(await res2.json());
   }
-  return locations;
+  return {names, locations};
 }
 
 

@@ -51,7 +51,7 @@ function App() {
               }
             }}/>
           </div>
-          <Sidebar />
+          <Sidebar setVisible={setMenuVisible}/>
         </div>
       </Switch>
     </div>
