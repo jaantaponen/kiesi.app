@@ -40,8 +40,8 @@
 .dropdown {
   position: absolute !important;
   top: 7px;
-  left: 5vw;
-  width: 90vw;
+  right: 15vw;
+  width: 75vw;
   z-index: 10;
 }
 
