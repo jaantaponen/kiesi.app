@@ -1,6 +1,13 @@
 # kiesi.app
 
-The best instructions for this product is given at [https://kiesi.app/](https://kiesi.app/).
+The best introductions for this product is given at [https://kiesi.app/](https://kiesi.app/).
+
+## Chosen frameworks
+
+We are using
+ - React
+ - Typescript
+ - Docker
 
 ## Building
 
