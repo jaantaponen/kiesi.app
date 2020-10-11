@@ -49,7 +49,7 @@
 #container {
   transition: margin-left 0.2s, margin-right 0.2s;
   position: relative;
-  height: 101vh;
+  min-height: 100vh;
   z-index: 10;
   background-color: white;
 }
