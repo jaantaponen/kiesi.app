@@ -97,8 +97,8 @@ export default (props: any) => {
       <Map
         style='mapbox://styles/palikk/ckg3pb2011wja19olciykhatx'
         containerStyle={{
-          height: '100vh',
-          width: '100vw'
+          height: '100%',
+          width: '100%'
         }}
         center={center}
         onMoveEnd={(map: any, _: any) => {
