@@ -6,6 +6,7 @@ import {lineString} from '@turf/helpers';
 import calcBbox from '@turf/bbox';
 import 'react-dropdown/style.css';
 import Waypoints from './Waypoints';
+import MenuButton from './MenuButton';
 import Sidebar from './Sidebar';
 import './Common.css';
 import './Map.css';
@@ -22,7 +23,7 @@ const Map = ReactMapboxGl({
 });
 export default () => {
 
-  
+
   const [geojson, setGeojson] = useState<any>(emptyJson);
   const [routes, setRoutes] = useState<Pool[]>([]);
   const [currentRoute, setCurrentRoute] = useState<number>(-1);
@@ -81,7 +82,7 @@ export default () => {
       ],pairs: [[2, 1]]}
   ]);
   }, [])
-  
+
   useEffect(() => {
     (async () => {
       const pools = await getPools();
@@ -105,7 +106,7 @@ export default () => {
       }
       setOptions(opts);
       setRoutes(routeObjects);
-      
+
     })();
   }, []);
 
@@ -122,11 +123,7 @@ export default () => {
     <div id="container" className={menuVisible ? "container-menu-visible" : ""}>
       <div className="header-container">
         <Dropdown className="dropdown" onChange={dropdownChange} options={options} /*value={defaultOption}*/ placeholder="Choose a ride" />
-        <button className="menu-button" onClick={onMenuClick}>
-          <div className="menu-button-bar"/>
-          <div className="menu-button-bar"/>
-          <div className="menu-button-bar"/>
-        </button>
+        <MenuButton onClick={onMenuClick} />
       </div>
       <Map
         style='mapbox://styles/palikk/ckg3pb2011wja19olciykhatx'
