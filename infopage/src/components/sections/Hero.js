@@ -69,7 +69,7 @@ const Hero = ({
                 </p>
               <div className="reveal-from-bottom" data-reveal-delay="600">
                 <ButtonGroup>
-                  <Button tag="a" color="primary" wideMobile href="https://kiesi.app/app">
+                  <Button tag="a" color="primary" wideMobile href="https://demo.kiesi.app">
                     View Demo
                     </Button>
                   <Button tag="a" color="dark" wideMobile href="https://github.com/JaanTaponen/kiesi.app">
