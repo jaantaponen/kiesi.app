@@ -60,6 +60,35 @@ router.get('/pools',
     return res.status(200).send(pools)
   });
 
+  router.get('/pool-locations/:poolid',
+  jwtmiddleware({ secret: process.env.ACCESS_TOKEN_SECRET, algorithms: ['HS256'] }),
+  async (req, res) => {
+    console.log((<any>req).user)
+    if (!(<any>req).user) return res.sendStatus(401);
+    res.setHeader('Content-Type', 'application/json');
+
+    const poolId = req.params.poolid;
+    console.log(poolId);
+    const pools = await kiesi_service.getPoolWithAllLocations(poolId);
+    const poolsWithDistances = pools.map((i: { startlon: number; startlat: number; endlon: number; endlat: number }) => {
+      const startpoint = point([i.startlon, i.startlat]);
+      const endpoint = point([i.endlon, i.endlat]);
+      return {
+        "startlat": i.startlat,
+        "startlon": i.startlon,
+        "endlat": i.endlat,
+        "endlon": i.endlon,
+        "dist": distance(startpoint, endpoint),
+        "isdriver": false
+      }
+    });
+    const maxvalue = poolsWithDistances.reduce((prev: { dist: number }, current: { dist: number }) => (prev.dist > current.dist) ? prev : current);
+    poolsWithDistances[poolsWithDistances.indexOf(maxvalue)].isdriver = true;
+
+
+    return res.status(200).send(poolsWithDistances)
+  });
+
 
 //post joinpool(userid (jwt), poolid) -> userid added to pool
 router.post('/joinpool',

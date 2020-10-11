@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "94212344-e28c-4f87-9690-9733cc11dfa6",
+		"_postman_id": "cc14ae3f-c3c5-47d7-954e-527493b8812f",
 		"name": "kiesi",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -143,7 +143,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3001/joinpool",
+					"raw": "http://localhost:3001/joinpool?",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -186,6 +186,32 @@
 					"port": "3001",
 					"path": [
 						"createpool"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/pool-locations/1",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0fSwiaWF0IjoxNjAyMzc0OTc2LCJleHAiOjE2MDI4MTcwOTl9.-inBVW_xg3jFisz16-nWh43I-uxZ3zqxooAt1bZEOSo",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3001/pool-locations/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"pool-locations",
+						"1"
 					]
 				}
 			},
