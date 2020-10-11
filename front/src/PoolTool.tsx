@@ -124,8 +124,8 @@ export default () => {
             />
           </Grid>
         </Grid>
-        <Grid item={true}>
-          <Button color="primary" onClick={() => {
+        <Grid item>
+          <Button className="search-button" onClick={() => {
             (async () => {
               if (originCoords?.length && destinationCoords?.length) {
                 const ans = await searchPools(originCoords, destinationCoords);

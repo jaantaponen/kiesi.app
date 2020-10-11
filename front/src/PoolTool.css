@@ -30,3 +30,12 @@
 h1 {
   text-align: left;
 }
+
+.search-button {
+  width: 100%;
+  height: 44px;
+  border-radius: 22px !important;
+  font-weight: bold !important;
+  background-color: #FF650F !important;
+  color: white !important;
+}
