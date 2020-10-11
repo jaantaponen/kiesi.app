@@ -24,14 +24,13 @@ function App() {
   }, [match])
 
   useEffect(() => {
-    console.log(match);
-    console.log(isLoggedIn);
+    //console.log(match);
+    //console.log(isLoggedIn);
   }, [match, isLoggedIn])
 
   const onMenuClick = () => {
     setMenuVisible(!menuVisible);
   }
-  console.log(isLoggedIn, match, tokenInStorage)
   return (
     <div className="App">
       <Switch>

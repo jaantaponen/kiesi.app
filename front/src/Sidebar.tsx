@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
@@ -11,6 +11,11 @@ export default ({setVisible}: {setVisible: any}) => {
 
   const [activeItem, setActiveItem] = useState<string>("main");
   const history = useHistory();
+  const location = useLocation();
+  const mm: any = {
+    "/tool": "join",
+    "/": "main",
+  }
   const menuItemClicked = (id: string) => {
     setActiveItem(id);
     if (id === 'join') {
@@ -29,7 +34,7 @@ export default ({setVisible}: {setVisible: any}) => {
       { menuItems.map(menuItem =>
         <a
           key={menuItem.id}
-          className={`sidebar-row ${activeItem === menuItem.id ? "selected" : ""}`}
+          className={`sidebar-row ${mm[location.pathname] === menuItem.id ? "selected" : ""}`}
           onClick={(e) => menuItemClicked(menuItem.id)}
         >
           {menuItem.title}
