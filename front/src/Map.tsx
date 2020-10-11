@@ -116,8 +116,8 @@ export default (props: any) => {
         <GeoJSONLayer
           data={geojson}
           linePaint={{
-            "line-color": "#007bff",
-            'line-width': 2
+            "line-color": "#0C1E55",
+            'line-width': 3
           }}
           lineLayout={{
             "visibility": "visible",
