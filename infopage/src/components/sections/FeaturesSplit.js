@@ -67,7 +67,7 @@ const FeaturesSplit = ({
             <div className="split-item">
               <div className="split-item-content center-content-mobile reveal-from-left" data-reveal-container=".split-item">
                 <div className="text-xxs text-color-primary fw-600 tt-u mb-8">
-                  Lightning fast workflow
+                  Step 1
                   </div>
                 <h3 className="mt-0 mb-12">
                   Choose your route
@@ -93,13 +93,14 @@ const FeaturesSplit = ({
             <div className="split-item">
               <div className="split-item-content center-content-mobile reveal-from-right" data-reveal-container=".split-item">
                 <div className="text-xxs text-color-primary fw-600 tt-u mb-8">
-                  Lightning fast workflow
+                  Step 2
                   </div>
                 <h3 className="mt-0 mb-12">
-                  Data-driven insights
+                  Select a pool
                   </h3>
                 <p className="m-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua — Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  Our algorithm will match your route with suitable pools and list them for you. Select the one which is most suitable
+                  for you and send a request to join.
                   </p>
               </div>
               <div className={
@@ -119,13 +120,13 @@ const FeaturesSplit = ({
             <div className="split-item">
               <div className="split-item-content center-content-mobile reveal-from-left" data-reveal-container=".split-item">
                 <div className="text-xxs text-color-primary fw-600 tt-u mb-8">
-                  Lightning fast workflow
+                  step 3
                   </div>
                 <h3 className="mt-0 mb-12">
-                  Data-driven insights
+                  Start ridesharing
                   </h3>
                 <p className="m-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua — Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  Start ridesharing with your pool regularly. You can view the route from the app, with your estimated pickup and arrival time. 
                   </p>
               </div>
               <div className={
