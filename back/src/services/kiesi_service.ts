@@ -1,12 +1,13 @@
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config()
 const { Pool } = require('pg')
 const pool = new Pool({
   user: 'tunkkibois',
-  host: 'ddns2.jaantaponen.fi',
+  host: 'db',
   database: 'tunkkidb',
   password: 'tunkkitunkki',
-  port: 8081,
+  port: 5432,
 })
 
 const testConnection = async () => {
