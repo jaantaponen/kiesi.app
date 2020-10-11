@@ -1,13 +1,5 @@
 .MuiGrid-root {
-  
-  margin-top: 2px !important;
-  margin-bottom: 10px !important;
-  border: 1px solid black;
-  border-radius: 10px;;
-  margin-left: 10px !important;
-  margin-right: 10px !important;
-  width: 50vw;
-  left: 25vw;
+
 }
 .select123 {
   border: 1px solid black;
@@ -16,4 +8,25 @@
 
 .MuiGrid-container {
   border: 0px;
+}
+
+.big-textfield .MuiInput-root {
+  width: 100%;
+}
+
+.big-textfield label {
+  text-align: left;
+}
+
+#tool-container {
+   padding: 5px 32px 0px 32px;
+   width: 100%;
+   overflow: hidden;
+   max-width: 320px;
+   margin: auto;
+   box-sizing: border-box;
+}
+
+h1 {
+  text-align: left;
 }
