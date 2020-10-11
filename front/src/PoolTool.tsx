@@ -70,42 +70,48 @@ export default () => {
     }
   }, [destinationDebounced]);
   return (
-    <>
-      <Grid spacing={1} alignContent={"flex-start"} container={true} direction={"column"}>
-        <Grid style={{ width: "75vw", marginTop: "20px !important" }} item={true}>
+    <div id="tool-container">
+      <Grid spacing={5} alignContent={"flex-start"} container={true} direction={"column"}>
+        <Grid item>
+          <h1>Find a ride</h1>
+        </Grid>
+        <Grid className="big-textfield" item container>
           <InputLabel htmlFor="origin">Origin address</InputLabel>
           <Input id="origin" onChange={(ev: any) => {
             console.log(ev.target.value);
             setOriginQuery(ev.target.value);
           }} />
         </Grid>
-        <Grid style={{ width: "75vw" }} item={true}>
+        <Grid className="big-textfield" item container>
           <InputLabel htmlFor="destination">Destination address</InputLabel>
           <Input id="destination" onChange={(ev: any) => {
             setDestinationQuery(ev.target.value);
           }} />
         </Grid>
-        <Grid container={true} item={true}>
-          <Select
-            className={"select123"}
-            native
-            value={arrDep}
-            onChange={(ev) => {
-              setArrDep(ev.target.value as any);
-            }}
-            inputProps={{
-              name: 'arrdep',
-              id: 'age-native-simple',
-            }}
-          >
-            <option value={"arr"}>Arrival</option>
-            <option value={"dep"}>Departure</option>
-          </Select>
-
-          <Grid item={true}>
-            Mon-Fri at:
-          <TextField
-              style={{ height: "30px" }}
+        <Grid spacing={2} wrap="nowrap" justify="space-between" container item>
+          <Grid item>
+            <Select
+              className={"time-type-select"}
+              native
+              value={arrDep}
+              onChange={(ev) => {
+                setArrDep(ev.target.value as any);
+              }}
+              inputProps={{
+                name: 'arrdep',
+                id: 'age-native-simple',
+              }}
+            >
+              <option value={"arr"}>Arrival</option>
+              <option value={"dep"}>Departure</option>
+            </Select>
+          </Grid>
+          <Grid item>
+            <p style={{marginTop: "6px"}}>Mon-Fri at:</p>
+          </Grid>
+          <Grid item>
+            <TextField
+              style={{ height: "30px", width: "40px" }}
               id="time"
               type="time"
               defaultValue="07:30"
@@ -118,8 +124,8 @@ export default () => {
             />
           </Grid>
         </Grid>
-        <Grid item={true}>
-          <Button color="primary" onClick={() => {
+        <Grid item>
+          <Button className="search-button" onClick={() => {
             (async () => {
               if (originCoords?.length && destinationCoords?.length) {
                 const ans = await searchPools(originCoords, destinationCoords);
@@ -196,6 +202,6 @@ export default () => {
           </Grid>
         </Paper>
       </Modal>
-    </>
+    </div>
   )
 }

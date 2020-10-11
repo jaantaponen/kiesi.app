@@ -16,9 +16,9 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState<boolean>(false);
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
   const match = useLocation();
-  document.getElementById("root")?.addEventListener(("touchmove"), (ev) => {
-    ev.preventDefault();
-  });
+  // document.getElementById("root")?.addEventListener(("touchmove"), (ev) => {
+  //   ev.preventDefault();
+  // });
   useEffect(() => {
     if (tokenInStorage()) setLoggedIn(true);
     else setLoggedIn(false);

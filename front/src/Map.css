@@ -32,5 +32,5 @@
   position: absolute !important;
   top: 0px;
   left: 0px;
-  z-index: 9;
+  z-index: -1;
 }
