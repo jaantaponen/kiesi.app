@@ -1,10 +1,12 @@
 .menu-button {
   width: 32px;
-  margin-top: 10px;
-  margin-left: 16px;
+  position: absolute;
+  top: 30px;
+  right: 24px;
   border: none;
   background-color: transparent;
   padding: 0px;
+  z-index: 100;
 }
 
 .menu-button-bar {

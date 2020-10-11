@@ -44,3 +44,14 @@
   width: 90vw;
   z-index: 10;
 }
+
+#container {
+  transition: margin-left 0.2s, margin-right 0.2s;
+  position: relative;
+  height: 100vh;
+}
+
+.container-menu-visible {
+  margin-left: -280px;
+  margin-right: 280px;
+}
