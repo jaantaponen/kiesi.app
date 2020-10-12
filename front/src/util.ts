@@ -19,7 +19,7 @@ const constructRoutingUrl = (coordinates: [number, number][], pairs?: [number, n
       if (index < pairs.length - 1) pairsString += ';';
     });
   }
-  const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${urlString}?overview=full&access_token=pk.eyJ1IjoicGFsaWtrIiwiYSI6ImNrNzljb2NnaTBueDIzZm55eXJpcjh0M2gifQ.DvQulSOQQxy2CpDWdytTww&roundtrip=false&source=first&destination=last${pairsString}`;
+  const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${urlString}?overview=full&access_token=pk.eyJ1IjoicGFsaWtrIiwiYSI6ImNqNDJ2bWZxcDB0aDgyd3Bjbzl0bnF0NmgifQ.Peq3TbCa8ALVbmbvsgfFvQ&roundtrip=false&source=first&destination=last${pairsString}`;
   return url;
 }
 
