@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/kiesi.app/static/css/main.3b7d375d.chunk.css",
-    "main.js": "/kiesi.app/static/js/main.ba72e248.chunk.js",
-    "main.js.map": "/kiesi.app/static/js/main.ba72e248.chunk.js.map",
+    "main.css": "/kiesi.app/static/css/main.b1637d9f.chunk.css",
+    "main.js": "/kiesi.app/static/js/main.f217c32e.chunk.js",
+    "main.js.map": "/kiesi.app/static/js/main.f217c32e.chunk.js.map",
     "runtime-main.js": "/kiesi.app/static/js/runtime-main.df9c1fa3.js",
     "runtime-main.js.map": "/kiesi.app/static/js/runtime-main.df9c1fa3.js.map",
     "static/js/2.7c460898.chunk.js": "/kiesi.app/static/js/2.7c460898.chunk.js",
     "static/js/2.7c460898.chunk.js.map": "/kiesi.app/static/js/2.7c460898.chunk.js.map",
     "index.html": "/kiesi.app/index.html",
-    "precache-manifest.8c6f94fc535e95099686ac5f5b3819f0.js": "/kiesi.app/precache-manifest.8c6f94fc535e95099686ac5f5b3819f0.js",
+    "precache-manifest.8fa3d9d7fad2b394861a1009642da266.js": "/kiesi.app/precache-manifest.8fa3d9d7fad2b394861a1009642da266.js",
     "service-worker.js": "/kiesi.app/service-worker.js",
-    "static/css/main.3b7d375d.chunk.css.map": "/kiesi.app/static/css/main.3b7d375d.chunk.css.map",
+    "static/css/main.b1637d9f.chunk.css.map": "/kiesi.app/static/css/main.b1637d9f.chunk.css.map",
     "static/js/2.7c460898.chunk.js.LICENSE.txt": "/kiesi.app/static/js/2.7c460898.chunk.js.LICENSE.txt",
     "static/media/style.scss": "/kiesi.app/static/media/illustration-section-02.63d0555d.svg",
     "static/media/feature-tile-icon-01.svg": "/kiesi.app/static/media/feature-tile-icon-01.0f9928d7.svg",
@@ -28,7 +28,7 @@
   "entrypoints": [
     "static/js/runtime-main.df9c1fa3.js",
     "static/js/2.7c460898.chunk.js",
-    "static/css/main.3b7d375d.chunk.css",
-    "static/js/main.ba72e248.chunk.js"
+    "static/css/main.b1637d9f.chunk.css",
+    "static/js/main.f217c32e.chunk.js"
   ]
 }
