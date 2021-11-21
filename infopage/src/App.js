@@ -36,7 +36,7 @@ const App = () => {
       ref={childRef}
       children={() => (
         <Switch>
-          <AppRoute exact path="/" component={Home} layout={LayoutDefault} />
+          <AppRoute exact path="/kiesi.app" component={Home} layout={LayoutDefault} />
         </Switch>
       )} />
   );

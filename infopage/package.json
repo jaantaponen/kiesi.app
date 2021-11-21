@@ -21,7 +21,7 @@
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://jaantaponen.github.io/kiesi.app",
+  "homepage": ".",
   "eslintConfig": {
     "extends": "react-app"
   },
